@@ -22,10 +22,12 @@ Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8
 
 ## ToDo
 
-* Unterstützung von CUxD DEVLOGMOVE
+* Unterstützung von CUxD DEVLOGMOVE (Highcharts "lazy loading"?)
+* Maximale Anzahl an Logeinträgen herausexperimentieren :)
 * Abfrage von Kanalnamen
 * Zuordnung von Units
 * Anpassung des Graphentyps (Stufen, Punkte, Faktoren, ...)
+
 
 
 ## Copyright, Lizenz, Bedingungen
