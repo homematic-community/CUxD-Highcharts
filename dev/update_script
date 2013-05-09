@@ -1,0 +1,10 @@
+#!/bin/sh
+
+mkdir -p /mnt
+mount -t yaffs /dev/mtdblock3 /mnt
+
+cp -R ./cuxchart /mnt/etc/config/addons/www/
+cp ./cuxd-highcharts /mnt/etc/config/rc.d
+chmod +x /mnt/etc/config/rc.d/cuxchart
+
+umount /mnt
