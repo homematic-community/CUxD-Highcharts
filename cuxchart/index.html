@@ -127,20 +127,15 @@
 
 
 
-                    for (var out_dp in series) {
+                    for (var out_dp in dates) {
                         out_dp = out_dp.slice(0, out_dp.length);
 
                         var charttype = "",
                                 unit = "",
                                 marker = {},
-                                step = undefined,
-                                factor = undefined;
-
-
-                        switch (series[out_dp].datapoint) {
-                            case "TEMPERATURE":
-                                charttype = "spline";
-                                unit = "°C";
+                                factor = undefined,
+                                charttype = "line",
+                                step = "left",
                                 marker = {
                                     enabled: false,
                                     states: {
@@ -149,78 +144,9 @@
                                         }
                                     }
                                 };
-                                break;
-                            case "HUMIDITY":
-                                charttype = "spline";
-                                unit = "%";
-                                marker = {
-                                    enabled: false,
-                                    states: {
-                                        hover: {
-                                            enabled: true
-                                        }
-                                    }
-                                };
-                                break;
-                            case "MEAN5MINUTES":
-                                charttype = "spline";
-                                unit = "";
-                                marker = {
-                                    enabled: false,
-                                    states: {
-                                        hover: {
-                                            enabled: true
-                                        }
-                                    }
-                                };
-                                break;
-                            case "LEVEL":
-                                charttype = "line";
-                                step = "left";
-                                unit = "%";
-                                factor = 100;
-                                marker = {
-                                    enabled: false,
-                                    states: {
-                                        hover: {
-                                            enabled: true
-                                        }
-                                    }
-                                };
-                                break;
-
-                            case "PRESS_SHORT":
-                            case "PRESS_LONG":
-                            case "PRESS_OPEN":
-                                marker = {
-                                    enabled: true
-                                };
-                                charttype = "scatter";
-                                break;
-                            case "SETPOINT":
-                            case "MOTION":
-                                charttype = "line";
-                                step = "left";
-                                marker = {
-                                    enabled: true
-                                };
-                                break;
-                            default:
-                                charttype = "line";
-                                step = "left";
-                                marker = {
-                                    enabled: false,
-                                    states: {
-                                        hover: {
-                                            enabled: true
-                                        }
-                                    }
-                                };
-
-                        }
 
                         var serie = {
-                            name: series[out_dp].name + " (" + series[out_dp].address + "." + series[out_dp].datapoint +")",
+                            name: out_dp,
                             type: charttype,
                             step: step,
                             marker: marker,
@@ -229,7 +155,6 @@
                             data: dates[out_dp]
 
                         };
-                        serie.data = dates[out_dp];
                         chart.addSeries(serie);
 
                     }

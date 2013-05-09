@@ -21,36 +21,6 @@ while {[gets $fp line] >= 0} {
         }
         puts $line
     }
-    if {[string match "LOGIT*" $line]} {
-        regexp {LOGIT=([^ ]+) ([^ ]+) (.*)} $line matched sub1 sub2 sub3
-        set unit ""
-        if {[string match "TEMPERATURE" $sub2]} {
-            set unit "°C"
-        }
-        if {[string match "HUMIDITY" $sub2]} {
-            set unit "%"
-        }
-
-        set script "var dp = '${sub1}.${sub2}';"
-        append script {
-            object o = dom.GetObject('BidCos-RF.' # dp);
-            if (o) {
-                Write(dom.GetObject(o.Channel()).Name());
-            } else {
-                o = dom.GetObject('BidCos-Wir.' # dp);
-                if (o) {
-                    Write(dom.GetObject(o.Channel()).Name());
-                } else {
-                    o = dom.GetObject('CUxD.' # dp);
-                  if (o) {
-                    Write(dom.GetObject(o.Channel()).Name());
-                  }
-                }
-            }
-        }
-        set res [lindex [rega_script $script] 1]
-        puts "$line $unit $res"
-    }
 }
 close $fp
 set fp [open $cuxlog r]

@@ -11,7 +11,7 @@ case "$1" in
         echo "Info: <br>Aufruf: <a href="/addons/cuxchart/" target="_blank">http://CCU/addons/cuxchart</a>"
         echo "Info: <br>Readme: <a href="https://raw.github.com/hobbyquaker/CUxD-Highcharts/master/README.md" target="_blank">Lies mich!</a>"
         echo "Name: CUxD-Highcharts"
-        echo "Version: 1.0"
+        echo "Version: 1.1"
         echo "Operations: uninstall"
         ;;
 	uninstall)

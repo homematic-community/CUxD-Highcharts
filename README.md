@@ -1,4 +1,4 @@
-# CUxD-Highcharts 1.0
+# CUxD-Highcharts 1.1
 
 Zusatzsoftware für die HomeMatic CCU um CUxD DEVLOGS mit Highcharts zu visualisieren
 
