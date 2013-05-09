@@ -12,11 +12,11 @@ Im HomeMatic WebUI cuxchart.tar.gz als Zusatzsoftware installieren. Download übe
 
 Den Ordner cuxchart aus dem Zip-File https://github.com/hobbyquaker/CUxD-Highcharts/archive/master.zip auf die CCU nach /www/addons/ kopieren.
 
-## Benutzung
+## Verwendung
+
+* http://ccu/addons/cuxchart/ aufrufen
 
 CUxD-Highcharts liest das Config-File des CUxD aus und findet so das Logfile. Es ist daher keine Konfiguration notwendig.
-
-http://ccu/addons/cuxchart/ aufrufen
 
 Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8 beschrieben.
 
