@@ -20,6 +20,14 @@ CUxD-Highcharts liest das Config-File des CUxD aus und findet so das Logfile. Es
 
 Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8 beschrieben.
 
+## ToDo
+
+* Unterstützung von CUxD DEVLOGMOVE
+* Abfrage von Kanalnamen
+* Zuordnung von Units
+* Anpassung des Graphentyps (Stufen, Punkte, Faktoren, ...)
+
+
 ## Copyright, Lizenz, Bedingungen
 
 CUxD-Highcharts
