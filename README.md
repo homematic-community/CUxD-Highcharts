@@ -18,6 +18,8 @@ CUxD-Highcharts liest das Config-File des CUxD aus und findet so das Logfile. Es
 
 http://ccu/addons/cuxchart/ aufrufen
 
+Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8 beschrieben.
+
 ## Copyright, Lizenz, Bedingungen
 
 CUxD-Highcharts
