@@ -19,6 +19,7 @@ Den Ordner cuxchart aus dem Zip-File https://github.com/hobbyquaker/CUxD-Highcha
 CUxD-Highcharts liest das Config-File des CUxD aus und findet so das Logfile. Es ist daher keine Konfiguration notwendig.
 
 Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8 beschrieben.
+Der Parameter DEVTIMEFORMAT muss auf seinem Default-Wert %Y-%m-%dT%X bleiben
 
 ## ToDo
 

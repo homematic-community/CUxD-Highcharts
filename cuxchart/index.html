@@ -1,171 +1,28 @@
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
-    <style type="text/css">
-        body, #chart {
-            width:  100%;
-            height: 100%;
-        }
-    </style>
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript" src="highcharts.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            Highcharts.setOptions({
-                lang: {
-                    months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-                        'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-                    shortMonths: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
-                        'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-                    weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag']
-                }
-            });
-
-            var chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'chart',
-                    zoomType: 'xy'
-                },
-                title: {
-                    text: null
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'left',
-                    verticalAlign: 'top'
-                },
-                subtitle: {
-                    text: null
-                },
-                credits: {
-                    enabled: false
-                },
-
-                xAxis: {
-                    type: 'datetime',
-                    dateTimeLabelFormats: {
-                        month: '%e. %b',
-                        year: '%Y'
-                    }
-                },
-                yAxis: {
-                    title: {
-                        text: ''
-                    }
-                }
-                /*,
-                 tooltip: {
-                 formatter: function() {
-                 return '<b>'+ this.series.name +'</b><br/>'+
-                 Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +': <b>'+ this.y + chartDPs[key].unit + '</b>';
-                 }
-                 }*/
-
-            });
-
-            var seriesObj = {
-                name: "test",
-                type: "spline",
-                step: "left",
-                data: [[0,1]],
-                visible: false,
-                marker: undefined
-
-            };
-
-            var conf = {};
-            var series = {};
-            var dates = {};
-            var test = {};
-
-            $.ajax({
-                url: 'log.cgi',
-                type: 'get',
-                success: function (data) {
-                    var lines = data.split("\n");
-
-                    for (var i = 0; i < lines.length; i++) {
-                        switch (lines[i].slice(0,6)) {
-                            case "DEVLOG":
-                                var pair = lines[i].split("=");
-                                conf[pair[0]] = pair[1];
-                                break;
-                            case "LOGIT=":
-                                var pair = lines[i].split("=");
-                                var triple = pair[1].split(" ");
-                                var dp = triple[2].slice(0, triple[2].length-1);
-
-
-
-                                series[dp] = {
-                                    "address": triple[0],
-                                    "datapoint": triple[1],
-                                    "unit": triple[3],
-                                    "name": triple.slice(4).join(" ")
-                                };
-
-
-                                break;
-                            default:
-                                if ($.trim(lines[i]) != "") {
-                                    var triple = lines[i].split(" ");
-                                    var data_dp = triple[1].slice(0, triple[1].length);
-
-                                    if (!dates[data_dp]) {
-                                        dates[data_dp] = [];
-                                    }
-                                    var ts = parseInt(Date.parse(triple[0].replace(/ /, "T")), 10);
-
-                                    dates[data_dp].push([ts, parseFloat(triple[2])]);
-
-                                }
-                        }
-                    }
-
-
-
-
-
-
-                    for (var out_dp in dates) {
-                        out_dp = out_dp.slice(0, out_dp.length);
-
-                        var charttype = "",
-                                unit = "",
-                                marker = {},
-                                factor = undefined,
-                                charttype = "line",
-                                step = "left",
-                                marker = {
-                                    enabled: false,
-                                    states: {
-                                        hover: {
-                                            enabled: true
-                                        }
-                                    }
-                                };
-
-                        var serie = {
-                            name: out_dp,
-                            type: charttype,
-                            step: step,
-                            marker: marker,
-                            unit: unit,
-                            visible: true,
-                            data: dates[out_dp]
-
-                        };
-                        chart.addSeries(serie);
-
-                    }
-                }
-
-            });
-
-        });
-    </script>
+    <title>CUxD-Highcharts <span class="version"></span></title>
+    <link rel="stylesheet" type="text/css" href="css/cuxchart.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script type="text/javascript" src="js/cuxchart.js"></script>
+    <script type="text/javascript" src="js/loStorage.js"></script>
 </head>
 <body>
-    <div id="chart"/>
+    <div id="chart"></div>
+    <div id="loader">
+        <h1>CUxD-Highcharts</h1>
+        <table id="stats">
+            <tr>
+                <td>Datenpunkte:</td><td><span id="count_dp">0</span></td><td>Werte:</td><td><span id="count_val">0</span></td>
+            </tr>
+            <tr>
+                <td>Erster Logeintrag</td><td><span id="log_first"></span></td><td>Letzter Logeintrag:</td><td><span id="log_last"></span></td>
+            </tr>
+        </table>
+        <div id="loader_output"></div>
+        <input type="button" value="nachfolgende Logs nicht mehr laden und Charts anzeigen" id="skip" style="display:none;"/>
+
+    </div>
 </body>
 </html>
