@@ -24,7 +24,7 @@ body {
     height: 100%;
     z-index: 100;
     background-color: #fff;
-    padding-left: 20px;
+    padding-left: 20px !important ;
     font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
     font-size: 18px;
     font-color: #333;

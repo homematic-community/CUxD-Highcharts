@@ -40,11 +40,50 @@ var cuxchart = {
     last: "0000-00-00T00:00:00",
     countDp: 0,
     countVal: 0,
+    dpInfos: {},
     cuxdConfig: {
         ALIASES: {},
         OLDLOGS: []
     },
     dates: {},
+    getDpInfos: function (callback) {
+        var dps = [];
+        for (var dp in cuxchart.dates) {
+            //console.log("dp " + dp);
+            if (!dp.match(/.*:.*\..*/)) {
+                if (cuxchart.cuxdConfig.ALIASES[dp]) {
+                    dp = cuxchart.cuxdConfig.ALIASES[dp];
+                    //console.log("=> " + dp);
+
+                }
+            }
+            dps.push(dp);
+        }
+        for (dp in cuxchart.dates) {
+            if (cuxchart.cuxdConfig.ALIASES[dp]) {
+                var tmp = cuxchart.dates[dp];
+                delete cuxchart.dates[dp];
+                //cuxchart.dates[cuxchart.cuxdConfig.ALIASES[dp]] = tmp;
+                cuxchart.dates[cuxchart.cuxdConfig.ALIASES[dp]] = tmp;
+            }
+        }
+
+        jQuery("#loader_output").append("<span class='ajax-loader'></span> frage Datenpunkt-Infos von CCU ab");
+        $.ajax({
+            url:    "ajax/dpinfos.cgi",
+            type:   "post",
+            data:   dps.join(";"),
+            success: function (data) {
+                //console.log(data);
+                cuxchart.dpInfos = data;
+                cuxchart.ajaxDone();
+                callback();
+            },
+            error: function () {
+
+            }
+        });
+    },
     saveSettings: function () {
         //console.log("saveSettings()");
         var visible = [];
@@ -56,8 +95,8 @@ var cuxchart = {
         //console.log(visible);
     },
     renderChart: function () {
-        console.log("!!!");
-        console.log(cuxchart.chartOptions);
+        //console.log("!!!");
+        //console.log(cuxchart.chartOptions);
         cuxchart.chart = new Highcharts.StockChart(cuxchart.chartOptions);
     },
     initHighcharts: function () {
@@ -112,7 +151,14 @@ var cuxchart = {
                     text: ''
                 }
             },
+            navigator: {
+                enabled: true,
+                series: {
+                    type: "line"
+                }
+            },
             rangeSelector : {
+                inputDateFormat: "%e. %b %Y",
                 buttons : [{
                     type : 'hour',
                     count : 1,
@@ -122,9 +168,17 @@ var cuxchart = {
                     count : 1,
                     text : '1D'
                 }, {
-                    type : 'all',
+                    type : 'week',
                     count : 1,
-                    text : 'Alles'
+                    text : '1W'
+                }, {
+                    type : 'month',
+                    count : 1,
+                    text : '1M'
+                }, {
+                    type : 'year',
+                    count : 1,
+                    text : '1J'
                 }],
                 selected : 1,
                 inputEnabled : true
@@ -134,7 +188,8 @@ var cuxchart = {
             },
             series: []
         };
-        console.log(cuxchart.chartOptions);
+        //console.log(cuxchart.first);
+        //console.log(cuxchart.chartOptions);
         //cuxchart.chart = new Highcharts.StockChart();
     },
     loadLog: function (log, callback) {
@@ -197,20 +252,25 @@ var cuxchart = {
         var log = cuxchart.cuxdConfig.OLDLOGS.pop();
         if (log) {
             cuxchart.loadLog(log, cuxchart.loadOldLogs);
-
-
         } else {
             // Keine weiteren Logs vorhanden.
             jQuery("#skip").hide();
-            for (var dp in cuxchart.dates) {
-                cuxchart.addSeries(dp);
-            }
-            $("#continue").show().click(function () {
-                $("#loader").hide();
-                cuxchart.renderChart();
+
+            cuxchart.getDpInfos(function () {
+                for (var dp in cuxchart.dates) {
+                    cuxchart.addSeries(dp);
+                }
+                cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(cuxchart.first), 10),0],[parseInt(Date.parse(cuxchart.last), 10),0]];
+
+                //$("#continue").show().click(function () {
+                    $("#loader").hide();
+                    cuxchart.renderChart();
+                //});
+
+
             });
 
-            //cuxchart.renderChart();
+
         }
 
     },
@@ -236,7 +296,7 @@ var cuxchart = {
                             var pair = lines[i].split("=");
                             var values = pair[1].split(" ");
                             if (values[2] && values[2].match(/[^!]+/)) {
-                                cuxchart.cuxdConfig.ALIASES[values[2]] = values[0];
+                                cuxchart.cuxdConfig.ALIASES[values[2]] = values[0]+"."+values[1];
                             }
                             break;
                         default:
@@ -273,27 +333,22 @@ var cuxchart = {
 
     },
     addSeries: function (dp) {
-        var charttype = "",
-            unit = "",
-            marker = {},
-            factor = undefined,
-            charttype = "line",
-            step = "left",
-            marker = {
+        var nameappend = dp.split(".");
+        nameappend = " "+nameappend[1];
+        nameappend += " ["+jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text()+"]";
+        var serie = {
+            name: cuxchart.dpInfos[dp].ChannelName +nameappend,
+            type: "spline",
+            step: "left",
+            marker: {
                 enabled: false,
                 states: {
                     hover: {
                         enabled: true
                     }
                 }
-            };
-
-        var serie = {
-            name: dp,
-            type: charttype,
-            step: step,
-            marker: marker,
-            unit: unit,
+            },
+            unit: jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text(),
             visible: true,
             data: cuxchart.dates[dp],
             events: {

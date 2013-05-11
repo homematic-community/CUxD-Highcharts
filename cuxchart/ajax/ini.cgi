@@ -12,7 +12,6 @@ proc list_files {{pat *} {dir .}} {
     foreach f [glob -nocomplain $dir $pat] {
             if {[string match $pat $f]} {
                 lappend l $f
-
             }
     }
     return $l
