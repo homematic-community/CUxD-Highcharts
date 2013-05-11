@@ -1,5 +1,5 @@
 /**
- *      CUxD-Highcharts 1.2dev
+ *      CUxD-Highcharts
  *
  *      visualisiert CUxD Geräte-Logs mittels Highcharts
  *
@@ -16,26 +16,12 @@
  *
  */
 
-(function($) { $(document).ready(function () {
-
-    $(".version").html(cuxchart.version);
-
-    cuxchart.initHighcharts();
-
-    cuxchart.loadData();
-
-    $("#skip").click(function () {
-        cuxchart.cuxdConfig.OLDLOGS = [];
-    });
-
-});})(jQuery);
-
-
 var cuxchart = {
-    version: "1.2beta4",
+    version: "1.2beta5",
     chart: undefined,
     chartOptions: {},
     storageKey: "cuxchart",
+    cache: {},
     first: "2200-00-00T00:00:00",
     last: "0000-00-00T00:00:00",
     countDp: 0,
@@ -100,14 +86,18 @@ var cuxchart = {
         cuxchart.chart = new Highcharts.StockChart(cuxchart.chartOptions);
     },
     initHighcharts: function () {
-
+        cuxchart.cache = storage.get(cuxchart.storageKey);
         Highcharts.setOptions({
             lang: {
                 months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
                     'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
                 shortMonths: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
                     'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-                weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag']
+                weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+                rangeSelectorFrom: 'von',
+                rangeSelectorTo: 'bis',
+                rangeSelectorZoom: 'Bereich'
+
             },
             global: {
                 useUTC: true
@@ -205,7 +195,6 @@ var cuxchart = {
                 if (ts < cuxchart.first) {
                         cuxchart.first = ts;
                         jQuery("#log_first").html(ts.replace(/T/, " "));
-                        cuxchart.chartOptions.xAxis["min"] = ts;
 
                 }
 
@@ -263,11 +252,15 @@ var cuxchart = {
                 cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(cuxchart.first), 10),0],[parseInt(Date.parse(cuxchart.last), 10),0]];
 
                 $("#continue").show().click(function () {
+                    $("#loader").hide();
+                    cuxchart.renderChart();
+                });
+
+
                 //setTimeout(function () {
                     $("#loader").hide();
                     cuxchart.renderChart();
-                //}, 150);
-                });
+                //}, 1);
 
 
             });
@@ -335,15 +328,34 @@ var cuxchart = {
 
     },
     addSeries: function (dp) {
+        var visible;
+        if (cuxchart.cache && cuxchart.cache.visible.length > 0) {
+            if (jQuery.inArray(dp, cuxchart.cache.visible) == -1) {
+                visible = false;
+            } else {
+                visible = true;
+            }
+        } else {
+            if (cuxchart.chartOptions.series.length > 0) {
+                visible = false;
+            } else {
+                visible = true;
+            }
+        }
+        console.log(dp + " " + visible);
         if (!cuxchart.dpInfos[dp]) {
             console.log("error loading dp "+dp);
         }
         var nameappend = dp.split(".");
         nameappend = " "+nameappend[1];
-        nameappend += " ["+jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text()+"]";
+        if (cuxchart.dpInfos[dp].ValueUnit) {
+            nameappend += " ["+jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text()+"]";
+        }
+
         var serie = {
+            cuxchart: dp,
             name: cuxchart.dpInfos[dp].ChannelName +nameappend,
-            type: "spline",
+            type: "line",
             step: "left",
             marker: {
                 enabled: false,
@@ -354,16 +366,26 @@ var cuxchart = {
                 }
             },
             unit: jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text(),
-            visible: true,
+            visible: visible,
             data: cuxchart.dates[dp],
             events: {
                 click: function () {
 
                 },
                 legendItemClick: function () {
+
                     setTimeout(function () {
+                        console.log(cuxchart.chart.series);
+                        var tmpArr = [];
+                        for (var i = 0; i < cuxchart.chart.series.length; i++) {
+                            if (cuxchart.chart.series[i].visible) {
+                                console.log(cuxchart.chart.series[i]);
+                                tmpArr.push(cuxchart.chart.series[i].userOptions.cuxchart);
+                            }
+                        }
+                        storage.set(cuxchart.storageKey, {visible: tmpArr});
                         cuxchart.saveSettings();
-                    }, 250);
+                    }, 1000);
                 }
             }
 
@@ -372,3 +394,17 @@ var cuxchart = {
         //cuxchart.chart.addSeries(serie);
     }
 };
+
+(function($) { $(document).ready(function () {
+
+    $(".version").html(cuxchart.version);
+
+    cuxchart.initHighcharts();
+
+    cuxchart.loadData();
+
+    $("#skip").click(function () {
+        cuxchart.cuxdConfig.OLDLOGS = [];
+    });
+
+});})(jQuery);
