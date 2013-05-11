@@ -32,7 +32,7 @@
 
 
 var cuxchart = {
-    version: "1.2dev",
+    version: "1.2beta4",
     chart: undefined,
     chartOptions: {},
     storageKey: "cuxchart",
@@ -129,7 +129,7 @@ var cuxchart = {
                 layout: 'vertical',
                 align: 'left',
                 verticalAlign: 'top',
-                y: 50
+                y: 38
             },
             subtitle: {
                 text: null
@@ -262,10 +262,12 @@ var cuxchart = {
                 }
                 cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(cuxchart.first), 10),0],[parseInt(Date.parse(cuxchart.last), 10),0]];
 
-                //$("#continue").show().click(function () {
+                $("#continue").show().click(function () {
+                //setTimeout(function () {
                     $("#loader").hide();
                     cuxchart.renderChart();
-                //});
+                //}, 150);
+                });
 
 
             });
@@ -333,6 +335,9 @@ var cuxchart = {
 
     },
     addSeries: function (dp) {
+        if (!cuxchart.dpInfos[dp]) {
+            console.log("error loading dp "+dp);
+        }
         var nameappend = dp.split(".");
         nameappend = " "+nameappend[1];
         nameappend += " ["+jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text()+"]";

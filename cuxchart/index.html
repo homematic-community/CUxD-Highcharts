@@ -9,20 +9,20 @@
     <script type="text/javascript" src="js/loStorage.js"></script>
 </head>
 <body>
-    <div id="chart"></div>
+<div id="title">
+    <span style="font-size:16px; font-style: italic;">CUxD-Highcharts  <span class="version"></span></span><br/>
+    <span style="font-size:10px;"><span id="count_dp"></span> Datenpunkte, <span id="count_val"></span> Werte
+        <!-- von <span id="log_first"></span> bis <span id="log_last"></span>--></span>
+
+</div>
+<div id="chart"></div>
     <div id="loader">
-        <h1>CUxD-Highcharts  <span class="version"></span></h1>
-        <table id="stats">
-            <tr>
-                <td style="width: 25%;">Datenpunkte:</td><td style="width: 15%; text-align: right; padding-right:50px;"><span id="count_dp">0</span></td><td style="width: 25%;">Erster Logeintrag:</td><td><span id="log_first"></span></td>
-            </tr>
-            <tr>
-                <td>Werte:</td><td style="width: 15%; text-align: right; padding-right:50px;"><span id="count_val">0</span></td><td>Letzter Logeintrag:</td><td><span id="log_last"></span></td>
-            </tr>
-        </table>
-        <div id="loader_output"></div>
-        <input type="button" value="nachfolgende Logs nicht mehr laden und Charts anzeigen" id="skip" style="display:none;"/>
-        <input type="button" value="Charts anzeigen" id="continue" style="display:none;"/>
+        <div id="loader_output">
+            <span style="display:block; height: 24px;">
+                <input type="button" value="nachfolgende Logs nicht mehr laden und Charts anzeigen" id="skip" style="display:none;"/>
+            <input type="button" value="Charts anzeigen" id="continue" style="display:none;"/>
+            </span><br/>
+        </div>
 
     </div>
 </body>

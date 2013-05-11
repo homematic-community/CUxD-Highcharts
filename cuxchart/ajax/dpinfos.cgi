@@ -19,7 +19,7 @@ set first true
 foreach dp $dps {
     append hm_script "o = dom.GetObject('BidCos-RF.$dp');\nif (!o) \{\n"
     append hm_script "o = dom.GetObject('CUxD.$dp');\n if (!o) \{\n"
-    append hm_script "o = dom.GetObject('BidCos-Wir.$dp');\n\}\n\}\nif (o) \{\n"
+    append hm_script "o = dom.GetObject('BidCos-Wired.$dp');\n\}\n\}\nif (o) \{\n"
     append hm_script "if (first) \{\nfirst = false;\n\} else \{\nWriteLine(',');\n\}\n"
     append hm_script "Write('\"$dp\":\{');\n"
     append hm_script "Write('\"ValueUnit\":\"' # o.ValueUnit() # '\",');\n"

@@ -16,6 +16,14 @@ body {
     height: 100%;
 }
 
+#title {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    z-index: 200;
+
+}
+
 #loader {
     position: absolute;
     top: 0px;
@@ -31,6 +39,9 @@ body {
 }
 
 #loader_output {
+    position: absolute;
+    left: 230px;
+    top: 70px;
     background-color: #f6faff;
     border: 1px solid black;
     width:738px;
