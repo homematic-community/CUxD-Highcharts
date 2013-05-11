@@ -38,6 +38,8 @@ var cuxchart = {
     storageKey: "cuxchart",
     first: "2200-00-00T00:00:00",
     last: "0000-00-00T00:00:00",
+    countDp: 0,
+    countVal: 0,
     cuxdConfig: {
         ALIASES: {},
         OLDLOGS: []
@@ -148,15 +150,11 @@ var cuxchart = {
                 if (ts < cuxchart.first) {
                         cuxchart.first = ts;
                         jQuery("#log_first").html(ts.replace(/T/, " "));
-                        console.log(cuxchart.chartOptions);
                         cuxchart.chartOptions.xAxis["min"] = ts;
-                        console.log("adding new min");
-                    console.log(cuxchart.chartOptions)
 
                 }
 
                 //console.log("first:" + cuxchart.first);
-                var ts, dp, val;
                 var tmpArr = {};
                 for (var i = 0; i < lines.length; i++) {
                     triple = lines[i].split(" ");
@@ -164,20 +162,30 @@ var cuxchart = {
                         ts = triple[0];
                         dp = triple[1];
                         val = triple[2];
-                        if (!cuxchart.dates[dp]) { cuxchart.dates[dp] = []; }
+                        if (!cuxchart.dates[dp]) {
+                            cuxchart.dates[dp] = [];
+                            cuxchart.countDp += 1;
+                            cuxchart.countVal += 1;
+                            $("#count_dp").html(cuxchart.countDp);
+                        } else {
+                            cuxchart.countVal += 1;
+                        }
                         if (!tmpArr[dp]) { tmpArr[dp] = []; }
                         var x = parseInt(Date.parse(ts), 10);
                         tmpArr[dp].push([x, parseFloat(val)]);
                     }
                 }
+                $("#count_val").html(cuxchart.countVal);
                 for (var tmpDp in tmpArr) {
                     if (!cuxchart.dates[tmpDp]) { cuxchart.dates[tmpDp] = []; }
                     cuxchart.dates[tmpDp] = tmpArr[tmpDp].concat(cuxchart.dates[tmpDp]);
                 }
 
-                if (ts > cuxchart.last) { cuxchart.last = ts; }
-                //console.log("last:" + cuxchart.last);
-                console.log(cuxchart.dates);
+                if (ts > cuxchart.last) {
+                    cuxchart.last = ts;
+                    jQuery("#log_last").html(ts.replace(/T/, " "));
+
+                }
                 cuxchart.ajaxDone();
                 callback();
             }
@@ -194,11 +202,15 @@ var cuxchart = {
         } else {
             // Keine weiteren Logs vorhanden.
             jQuery("#skip").hide();
-            $("#loader").hide();
             for (var dp in cuxchart.dates) {
                 cuxchart.addSeries(dp);
             }
-            cuxchart.renderChart();
+            $("#continue").show().click(function () {
+                $("#loader").hide();
+                cuxchart.renderChart();
+            });
+
+            //cuxchart.renderChart();
         }
 
     },

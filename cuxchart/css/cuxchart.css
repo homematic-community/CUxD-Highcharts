@@ -23,15 +23,15 @@ body {
     width: 100%;
     height: 100%;
     z-index: 100;
-    background-color: #708090;
-    padding: 20px;
+    background-color: #fff;
+    padding-left: 20px;
     font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
     font-size: 18px;
-    font-color: #fff;
+    font-color: #333;
 }
 
 #loader_output {
-    background-color: #8090a0;
+    background-color: #f6faff;
     border: 1px solid black;
     width:738px;
     height:320px;
@@ -41,16 +41,12 @@ body {
 }
 
 table#stats {
-    background-color: #8090a0;
+    background-color: #f6faff;
     border: 1px solid black;
     width:748px;
     padding-left: 8px;
     margin-bottom: 8px;
 }
-table#stats tr td {
-    width: 25%;
-}
-
 
 .ajax-loader {
     display: inline-block;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>CUxD-Highcharts <span class="version"></span></title>
+    <title>CUxD-Highcharts</title>
     <link rel="stylesheet" type="text/css" href="css/cuxchart.css"/>
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script src="http://code.highcharts.com/stock/highstock.js"></script>
@@ -11,17 +11,18 @@
 <body>
     <div id="chart"></div>
     <div id="loader">
-        <h1>CUxD-Highcharts</h1>
+        <h1>CUxD-Highcharts  <span class="version"></span></h1>
         <table id="stats">
             <tr>
-                <td>Datenpunkte:</td><td><span id="count_dp">0</span></td><td>Werte:</td><td><span id="count_val">0</span></td>
+                <td style="width: 25%;">Datenpunkte:</td><td style="width: 15%; text-align: right; padding-right:50px;"><span id="count_dp">0</span></td><td style="width: 25%;">Erster Logeintrag:</td><td><span id="log_first"></span></td>
             </tr>
             <tr>
-                <td>Erster Logeintrag</td><td><span id="log_first"></span></td><td>Letzter Logeintrag:</td><td><span id="log_last"></span></td>
+                <td>Werte:</td><td style="width: 15%; text-align: right; padding-right:50px;"><span id="count_val">0</span></td><td>Letzter Logeintrag:</td><td><span id="log_last"></span></td>
             </tr>
         </table>
         <div id="loader_output"></div>
         <input type="button" value="nachfolgende Logs nicht mehr laden und Charts anzeigen" id="skip" style="display:none;"/>
+        <input type="button" value="Charts anzeigen" id="continue" style="display:none;"/>
 
     </div>
 </body>
