@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.2.1",
+    version: "1.2.2",
     chart: undefined,
     chartOptions: {},
     storageKey: "cuxchart",
@@ -137,7 +137,7 @@ var cuxchart = {
             },
             credits: {
                 enabled: true,
-                text: "CUxD-Highcharts copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker - Lizenz: CC BY-NC 3.0 DE http://creativecommons.org/licenses/by-nc/3.0/de/ - Verwendet Highstock http://www.highcharts.com und jQuery http://www.jquery.com",
+                text: "CUxD-Highcharts " + cuxchart.version + " copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker - Lizenz: CC BY-NC 3.0 DE http://creativecommons.org/licenses/by-nc/3.0/de/ - Verwendet Highstock http://www.highcharts.com und jQuery http://www.jquery.com",
                 href: "https://github.com/hobbyquaker/CUxD-Highcharts",
                 position: { align: "left", x: 12 }
             },
@@ -357,9 +357,10 @@ var cuxchart = {
                 visible = true;
             }
         }
-        console.log(dp + " " + visible);
+        //console.log(dp + " " + visible);
         if (!cuxchart.dpInfos[dp]) {
-            console.log("error loading dp "+dp);
+            alert("FEHLER! Kann Datenpunkt "+dp+" nicht laden.");
+            return false;
         }
         var nameappend = dp.split(".");
         nameappend = " "+nameappend[1];
@@ -384,7 +385,7 @@ var cuxchart = {
 
         var dptype = dp.split(".");
         dptype = dptype[1];
-        console.log(dptype);
+        //console.log(dptype);
 
         switch (dptype) {
             case "TEMPERATURE":
