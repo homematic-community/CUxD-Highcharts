@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.2.2",
+    version: "1.2.3",
     chart: undefined,
     chartOptions: {},
     storageKey: "cuxchart",
@@ -358,17 +358,27 @@ var cuxchart = {
             }
         }
         //console.log(dp + " " + visible);
-        if (!cuxchart.dpInfos[dp]) {
-            alert("FEHLER! Kann Datenpunkt "+dp+" nicht laden.");
+
+        var name, valueunit, type, step;
+
+
+        if (cuxchart.dpInfos[dp]) {
+            var nameappend = dp.split(".");
+            nameappend = " "+nameappend[1];
+            if (cuxchart.dpInfos[dp].ValueUnit) {
+                nameappend += " ["+jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text()+"]";
+            }
+
+            name = cuxchart.dpInfos[dp].ChannelName +nameappend;
+            valueunit = cuxchart.dpInfos[dp].ValueUnit;
+
+        } else {
+            // TODO Hier wieder Alias als Name verwenden!
+            name = dp;
+            valueunit = "";
             return false;
         }
-        var nameappend = dp.split(".");
-        nameappend = " "+nameappend[1];
-        if (cuxchart.dpInfos[dp].ValueUnit) {
-            nameappend += " ["+jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text()+"]";
-        }
 
-        var type, step;
 
         var marker = {
             enabled: false,
@@ -382,18 +392,47 @@ var cuxchart = {
         var unit = "";
         var factor = 1;
         var yAxis = 0;
+        var grouping = undefined;
+
 
         var dptype = dp.split(".");
         dptype = dptype[1];
         //console.log(dptype);
 
         switch (dptype) {
+            case "METER":
+                type = "column",
+
+                grouping = {
+                    approximation: function (data) {
+                        var approx = data[data.length-1]-data[0]
+                        return (approx ? approx : 0);
+                    },
+                    enabled: true,
+                    forced: true,
+                    units: [[
+                        'hour',
+                        [1,2,3,4,5,6,12]
+                    ], [
+                        'day',
+                        [1]
+                    ], [
+                        'week',
+                        [1]
+                    ], [
+                        'month',
+                        [1]
+                    ]]
+
+                }
+                break;
+
             case "TEMPERATURE":
             case "HUMIDITY":
             case "MEAN5MINUTES":
             case "BRIGHTNESS":
                 type = "spline";
-            break;
+                break;
             case "LEVEL":
                 type = "line";
                 step = "left";
@@ -428,12 +467,14 @@ var cuxchart = {
 
         var serie = {
             cuxchart: dp,
-            name: cuxchart.dpInfos[dp].ChannelName +nameappend,
+            name: name,
             type: type,
             step: step,
             marker: marker,
-            unit: jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text(),
+            unit: jQuery("<div/>").html(valueunit).text(),
             visible: visible,
+            pointWidth: 16,
+            dataGrouping: grouping,
             data: cuxchart.dates[dp],
             events: {
                 click: function () {
