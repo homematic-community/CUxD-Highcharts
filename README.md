@@ -8,9 +8,12 @@ Zusatzsoftware für die HomeMatic CCU um CUxD DEVLOGS mit Highcharts zu visualisi
 
 Im HomeMatic WebUI cuxchart.tar.gz als Zusatzsoftware installieren. Download über http://homematic-inside.de
 
-### Per FTP/SCP (Vorteil: kein Zwangsreboot der CCU!)
+### Per FTP/SCP
+(Vorteil: kein Zwangsreboot der CCU, Nachteil: die Software taucht nicht in der Liste der installierten Zusatzsoftware auf und lässt sich dort auch nicht deinstallieren)
 
-Den Ordner cuxchart aus dem Zip-File https://github.com/hobbyquaker/CUxD-Highcharts/archive/master.zip auf die CCU nach /www/addons/ kopieren.
+Den Ordner cuxchart aus dem Zip-File https://github.com/hobbyquaker/CUxD-Highcharts/archive/master.zip auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
+
+
 
 ## Verwendung
 
