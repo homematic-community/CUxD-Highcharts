@@ -17,7 +17,7 @@
  */
 
 var cuxchart = {
-    version: "1.2beta5",
+    version: "1.2",
     chart: undefined,
     chartOptions: {},
     storageKey: "cuxchart",
@@ -174,7 +174,8 @@ var cuxchart = {
                 inputEnabled : true
             },
             tooltip: {
-                shared: false
+                shared: false,
+                xDateFormat: "%e. %B %Y %H:%M:%S"
             },
             series: []
         };
@@ -352,19 +353,70 @@ var cuxchart = {
             nameappend += " ["+jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text()+"]";
         }
 
+        var type, step;
+
+        var marker = {
+            enabled: false,
+            states: {
+                hover: {
+                    enabled: true
+                }
+            }
+        };
+        var step = undefined;
+        var unit = "";
+        var factor = 1;
+        var yAxis = 0;
+
+        var dptype = dp.split(".");
+        dptype = dptype[1];
+        console.log(dptype);
+
+        switch (dptype) {
+            case "TEMPERATURE":
+            case "HUMIDITY":
+            case "MEAN5MINUTES":
+            case "BRIGHTNESS":
+                type = "spline";
+            break;
+            case "LEVEL":
+                type = "line";
+                step = "left";
+                unit = "%";
+                yAxis = 1;
+                break;
+
+            case "PRESS_SHORT":
+            case "PRESS_LONG":
+            case "PRESS_OPEN":
+            case "MOTION":
+                yAxis = 1,
+                marker = {
+                    enabled: true
+                };
+                factor = 5;
+                type = "scatter";
+                break;
+            case "SETPOINT":
+                type = "line";
+                step = "left";
+                marker = {
+                    enabled: true
+                };
+                break;
+            default:
+                type = "line";
+                step = "left";
+
+        }
+
+
         var serie = {
             cuxchart: dp,
             name: cuxchart.dpInfos[dp].ChannelName +nameappend,
-            type: "line",
-            step: "left",
-            marker: {
-                enabled: false,
-                states: {
-                    hover: {
-                        enabled: true
-                    }
-                }
-            },
+            type: type,
+            step: step,
+            marker: marker,
             unit: jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text(),
             visible: visible,
             data: cuxchart.dates[dp],
