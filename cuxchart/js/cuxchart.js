@@ -5,11 +5,22 @@
  *
  *      Copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker
  *
- *      Diese Software ist freie Software. Sie können sie unter den Bedingungen der GNU General Public License, wie von
- *      der Free Software Foundation veröffentlicht, weitergeben und/oder modifizieren, gemäß Version 3 der Lizenz. Die
- *      Veröffentlichung dieser Software erfolgt in der Hoffnung, daß sie Ihnen von Nutzen sein wird, aber
+ *      Lizenz: CC BY-NC 3.0 http://creativecommons.org/licenses/by-nc/3.0/de/
+ *
+ *      Sie dürfen:
+ *          das Werk bzw. den Inhalt vervielfältigen, verbreiten und öffentlich zugänglich machen
+ *          Abwandlungen und Bearbeitungen des Werkes bzw. Inhaltes anfertigen
+ *      Zu den folgenden Bedingungen:
+ *          Namensnennung ? Sie müssen den Namen des Autors/Rechteinhabers in der von ihm festgelegten Weise nennen.
+ *          Keine kommerzielle Nutzung ? Dieses Werk bzw. dieser Inhalt darf nicht für kommerzielle Zwecke verwendet
+ *          werden.
+ *      Wobei gilt:
+ *          Verzichtserklärung ? Jede der vorgenannten Bedingungen kann aufgehoben werden, sofern Sie die ausdrückliche
+ *          Einwilligung des Rechteinhabers dazu erhalten.
+ *
+ *      Die Veröffentlichung dieser Software erfolgt in der Hoffnung, daß sie Ihnen von Nutzen sein wird, aber
  *      OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
- *      BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.
+ *      BESTIMMTEN ZWECK.
  *
  *      Die Nutzung dieser Software erfolgt auf eigenes Risiko. Der Author dieser Software kann für eventuell
  *      auftretende Folgeschäden nicht haftbar gemacht werden!
@@ -17,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.2",
+    version: "1.2.1",
     chart: undefined,
     chartOptions: {},
     storageKey: "cuxchart",
@@ -125,7 +136,10 @@ var cuxchart = {
                 text: null
             },
             credits: {
-                enabled: false
+                enabled: true,
+                text: "CUxD-Highcharts copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker - Lizenz: CC BY-NC 3.0 DE http://creativecommons.org/licenses/by-nc/3.0/de/ - Verwendet Highstock http://www.highcharts.com und jQuery http://www.jquery.com",
+                href: "https://github.com/hobbyquaker/CUxD-Highcharts",
+                position: { align: "left", x: 12 }
             },
 
             xAxis: {

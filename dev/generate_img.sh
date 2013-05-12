@@ -7,6 +7,7 @@ mkdir -p tmp/cuxchart/img
 mkdir -p tmp/cuxchart/js
 
 cp dev/cuxd-highcharts tmp/
+cp dev/update_script tmp/
 cp -a cuxchart/* tmp/cuxchart
 cp -a cuxchart/ajax/* tmp/cuxchart/ajax
 cp -a cuxchart/css/* tmp/cuxchart/css
