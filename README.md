@@ -11,7 +11,7 @@ Im HomeMatic WebUI cuxchart.tar.gz als Zusatzsoftware installieren. Download üb
 ### Per FTP/SCP
 (Vorteil: kein Zwangsreboot der CCU, Nachteil: die Software taucht nicht in der Liste der installierten Zusatzsoftware auf und lässt sich dort auch nicht deinstallieren)
 
-Den Ordner cuxchart aus dem Zip-File https://github.com/hobbyquaker/CUxD-Highcharts/archive/master.zip auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
+Den Ordner cuxchart aus dem [Zip-File](https://github.com/hobbyquaker/CUxD-Highcharts/archive/master.zip) auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
 
 
 
@@ -48,19 +48,26 @@ Der Parameter DEVTIMEFORMAT muss auf seinem Default-Wert %Y-%m-%dT%X bleiben.
 * Unter Titel durchschn. Log-Einträge pro Minute anzeigen
 * Fehler beheben: 1. Datenreihe wird immer wieder selektiert...
 
+## Verwendete Software
+
+* [jQuery](http://www.jquery.com)
+* [loStorage](https://github.com/js-coder/loStorage.js)
+* [Highcharts / Highstock](http://www.highcharts.com)
 
 ## Copyright, Lizenz, Bedingungen
 
-Copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker
-Lizenz: CC BY-NC 3.0 http://creativecommons.org/licenses/by-nc/3.0/de/
+Copyright (c) 2013 [hobbyquaker](https://github.com/hobbyquaker)   
+Lizenz: [CC BY-NC 3.0](http://creativecommons.org/licenses/by-nc/3.0/de/)
 
-Sie dürfen:
+Sie dürfen:  
  * das Werk bzw. den Inhalt vervielfältigen, verbreiten und öffentlich zugänglich machen
- * Abwandlungen und Bearbeitungen des Werkes bzw. Inhaltes anfertigen
-Zu den folgenden Bedingungen:
+ * Abwandlungen und Bearbeitungen des Werkes bzw. Inhaltes anfertigen  
+ * 
+Zu den folgenden Bedingungen:  
  * Namensnennung - Sie müssen den Namen des Autors/Rechteinhabers in der von ihm festgelegten Weise nennen.
- * Keine kommerzielle Nutzung — Dieses Werk bzw. dieser Inhalt darf nicht für kommerzielle Zwecke verwendet werden.
-Wobei gilt:
+ * Keine kommerzielle Nutzung — Dieses Werk bzw. dieser Inhalt darf nicht für kommerzielle Zwecke verwendet werden.  
+ * 
+Wobei gilt:  
  * Verzichtserklärung - Jede der vorgenannten Bedingungen kann aufgehoben werden, sofern Sie die ausdrückliche
  * Einwilligung des Rechteinhabers dazu erhalten.
 
