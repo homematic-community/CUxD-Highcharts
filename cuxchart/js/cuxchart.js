@@ -11,11 +11,11 @@
  *          das Werk bzw. den Inhalt vervielfältigen, verbreiten und öffentlich zugänglich machen
  *          Abwandlungen und Bearbeitungen des Werkes bzw. Inhaltes anfertigen
  *      Zu den folgenden Bedingungen:
- *          Namensnennung ? Sie müssen den Namen des Autors/Rechteinhabers in der von ihm festgelegten Weise nennen.
- *          Keine kommerzielle Nutzung ? Dieses Werk bzw. dieser Inhalt darf nicht für kommerzielle Zwecke verwendet
+ *          Namensnennung - Sie müssen den Namen des Autors/Rechteinhabers in der von ihm festgelegten Weise nennen.
+ *          Keine kommerzielle Nutzung - Dieses Werk bzw. dieser Inhalt darf nicht für kommerzielle Zwecke verwendet
  *          werden.
  *      Wobei gilt:
- *          Verzichtserklärung ? Jede der vorgenannten Bedingungen kann aufgehoben werden, sofern Sie die ausdrückliche
+ *          Verzichtserklärung - Jede der vorgenannten Bedingungen kann aufgehoben werden, sofern Sie die ausdrückliche
  *          Einwilligung des Rechteinhabers dazu erhalten.
  *
  *      Die Veröffentlichung dieser Software erfolgt in der Hoffnung, daß sie Ihnen von Nutzen sein wird, aber
@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.2.4",
+    version: "1.2.5",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
@@ -540,8 +540,9 @@ var cuxchart = {
 
                         var tmpArr = [];
                         for (var i = 0; i < cuxchart.chart.series.length; i++) {
-                            if (cuxchart.chart.series[i].visible) {
+                            if (cuxchart.chart.series[i].visible && cuxchart.chart.series[i].name && cuxchart.chart.series[i].name != "Navigator") {
                                 //console.log(cuxchart.chart.series[i]);
+
                                 tmpArr.push(cuxchart.chart.series[i].userOptions.cuxchart);
                             }
                         }
