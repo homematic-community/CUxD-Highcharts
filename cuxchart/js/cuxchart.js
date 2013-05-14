@@ -28,9 +28,10 @@
  */
 
 var cuxchart = {
-    version: "1.2.3",
+    version: "1.2.4",
     chart: undefined,
     chartOptions: {},
+    queryParams: getUrlVars(),
     storageKey: "cuxchart",
     cache: {},
     first: "2200-00-00T00:00:00",
@@ -38,8 +39,10 @@ var cuxchart = {
     countDp: 0,
     countVal: 0,
     dpInfos: {},
+    revDpInfos: {},
     cuxdConfig: {
         ALIASES: {},
+        REVALIASES: {},
         OLDLOGS: []
     },
     dates: {},
@@ -72,7 +75,40 @@ var cuxchart = {
             data:   dps.join(";"),
             success: function (data) {
                 //console.log(data);
-                cuxchart.dpInfos = data;
+                for (var i = 0; i < dps.length; i++) {
+                    // Kamen Infos zurück?
+                    if (data[dps[i]]) {
+
+
+                        cuxchart.dpInfos[dps[i]] = data[dps[i]];
+
+                        var hsstype = dps[i].split(".");
+
+
+                        cuxchart.revDpInfos[data[dps[i]].ChannelName + "." + hsstype[1]] = dps[i];
+                    } else {
+                        if (cuxchart.cuxdConfig.REVALIASES[dps[i]]) {
+                            cuxchart.dpInfos[dps[i]] = {
+                                ChannelName: cuxchart.cuxdConfig.REVALIASES[dps[i]],
+                                ValueUnit: ''
+                            }
+                            cuxchart.revDpInfos[cuxchart.cuxdConfig.REVALIASES[dps[i]]] = dps[i];
+                        } else {
+                            cuxchart.dpInfos[dps[i]] = {
+                                ChannelName: dps[i],
+                                ValueUnit: ''
+                            }
+                            cuxchart.revDpInfos[dps[i]] = dps[i];
+
+                        }
+
+                    }
+
+
+                }
+                //console.log("*** dpInfos ***");
+                //console.log(cuxchart.dpInfos);
+                //cuxchart.dpInfos = data;
                 cuxchart.ajaxDone();
                 callback();
             },
@@ -98,6 +134,7 @@ var cuxchart = {
     },
     initHighcharts: function () {
         cuxchart.cache = storage.get(cuxchart.storageKey);
+        //console.log(cuxchart.queryParams);
         Highcharts.setOptions({
             lang: {
                 months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
@@ -261,8 +298,22 @@ var cuxchart = {
             jQuery("#skip").hide();
 
             cuxchart.getDpInfos(function () {
+                //console.log("--- cuxchart.dates ---");
+                //console.log(cuxchart.dates);
+                //console.log("--- cuxchart.dpInfos ---");
+                //console.log(cuxchart.dpInfos);
+                var tmpArr = [];
                 for (var dp in cuxchart.dates) {
-                    cuxchart.addSeries(dp);
+                    var tmp = dp.split(".");
+                    tmpArr.push(cuxchart.dpInfos[dp].ChannelName + "." + tmp[1]);
+                   // cuxchart.addSeries(dp);
+                }
+                tmpArr.sort();
+                //console.log(tmpArr);
+                //console.log(cuxchart.revDpInfos);
+                 for (var i = 0; i<tmpArr.length; i++) {
+
+                    cuxchart.addSeries(cuxchart.revDpInfos[tmpArr[i]]);
                 }
                 cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(cuxchart.first), 10),0],[parseInt(Date.parse(cuxchart.last), 10),0]];
 
@@ -307,6 +358,7 @@ var cuxchart = {
                             var values = pair[1].split(" ");
                             if (values[2] && values[2].match(/[^!]+/)) {
                                 cuxchart.cuxdConfig.ALIASES[values[2]] = values[0]+"."+values[1];
+                                cuxchart.cuxdConfig.REVALIASES[values[0]+"."+values[1]] = values[2];
                             }
                             break;
                         default:
@@ -343,6 +395,8 @@ var cuxchart = {
 
     },
     addSeries: function (dp) {
+        //console.log("addSeries("+dp+") ");
+        //console.log(cuxchart.dpInfos[dp].ChannelName);
         var visible;
         if (cuxchart.cache && cuxchart.cache.visible.length > 0) {
             if (jQuery.inArray(dp, cuxchart.cache.visible) == -1) {
@@ -373,8 +427,7 @@ var cuxchart = {
             valueunit = cuxchart.dpInfos[dp].ValueUnit;
 
         } else {
-            // TODO Hier wieder Alias als Name verwenden!
-            name = dp;
+            name = cuxchart.cuxdConfig.REVALIASES[dp];
             valueunit = "";
             return false;
         }
@@ -483,14 +536,17 @@ var cuxchart = {
                 legendItemClick: function () {
 
                     setTimeout(function () {
-                        console.log(cuxchart.chart.series);
+                        //console.log(cuxchart.chart.series);
+
                         var tmpArr = [];
                         for (var i = 0; i < cuxchart.chart.series.length; i++) {
                             if (cuxchart.chart.series[i].visible) {
-                                console.log(cuxchart.chart.series[i]);
+                                //console.log(cuxchart.chart.series[i]);
                                 tmpArr.push(cuxchart.chart.series[i].userOptions.cuxchart);
                             }
                         }
+                        //console.log(tmpArr);
+                        //console.log(cuxchart.chart.getSelectedSeries());
                         storage.set(cuxchart.storageKey, {visible: tmpArr});
                         cuxchart.saveSettings();
                     }, 1000);
@@ -502,6 +558,20 @@ var cuxchart = {
         //cuxchart.chart.addSeries(serie);
     }
 };
+
+function getUrlVars() {
+    var vars = {}, hash;
+    if (window.location.href.indexOf('?') == -1) { return {}; }
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        if (hash[0] && hash[0] != "") {
+            vars[hash[0]] = hash[1];
+        }
+    }
+    return vars;
+}
 
 (function($) { $(document).ready(function () {
 
