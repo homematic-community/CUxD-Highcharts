@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.2.5",
+    version: "1.3beta1",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
@@ -133,7 +133,18 @@ var cuxchart = {
         cuxchart.chart = new Highcharts.StockChart(cuxchart.chartOptions);
     },
     initHighcharts: function () {
+
+        if (cuxchart.queryParams["loader"] == false) {
+                jQuery("#loader").hide();
+        }
+
         cuxchart.cache = storage.get(cuxchart.storageKey);
+
+        if (cuxchart.queryParams["dp"]) {
+            var tmpArr = cuxchart.queryParams["dp"].split(",");
+            cuxchart.cache.visible = tmpArr;
+        }
+
         //console.log(cuxchart.queryParams);
         Highcharts.setOptions({
             lang: {
@@ -151,6 +162,55 @@ var cuxchart = {
                 useUTC: true
             }
         });
+
+        var legend, navigator, credits;
+
+        if (cuxchart.queryParams["legend"] == "false") {
+                jQuery("#title").hide();
+                legend = {
+                    enabled: false
+                };
+                credits = {
+                    enabled: false
+                }
+            } else {
+
+                legend = {
+                    enabled: true,
+                    layout: 'vertical',
+                    align: 'left',
+                    verticalAlign: 'top',
+                    y: 38
+                };
+                credits = {
+                    enabled: true,
+                    text: "CUxD-Highcharts " + cuxchart.version + " copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker - Lizenz: CC BY-NC 3.0 DE http://creativecommons.org/licenses/by-nc/3.0/de/ - Verwendet Highstock http://www.highcharts.com und jQuery http://www.jquery.com",
+                    href: "https://github.com/hobbyquaker/CUxD-Highcharts",
+                    position: { align: "left", x: 12 }
+                };
+        }
+
+        if (cuxchart.queryParams["navigator"] == "false") {
+            navigator = {
+                enabled: false,
+                series: {
+                    type: "line"
+                }
+            };
+        } else {
+
+            navigator = {
+                enabled: true,
+                series: {
+                    type: "line"
+                }
+            };
+        }
+
+
+
+
+
         cuxchart.chartOptions = {
             chart: {
                 renderTo: 'chart',
@@ -162,22 +222,11 @@ var cuxchart = {
             title: {
                 text: null
             },
-            legend: {
-                enabled: true,
-                layout: 'vertical',
-                align: 'left',
-                verticalAlign: 'top',
-                y: 38
-            },
+            legend: legend,
             subtitle: {
                 text: null
             },
-            credits: {
-                enabled: true,
-                text: "CUxD-Highcharts " + cuxchart.version + " copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker - Lizenz: CC BY-NC 3.0 DE http://creativecommons.org/licenses/by-nc/3.0/de/ - Verwendet Highstock http://www.highcharts.com und jQuery http://www.jquery.com",
-                href: "https://github.com/hobbyquaker/CUxD-Highcharts",
-                position: { align: "left", x: 12 }
-            },
+            credits: credits,
 
             xAxis: {
                 ordinal: false,
@@ -192,13 +241,23 @@ var cuxchart = {
                     text: ''
                 }
             },
-            navigator: {
-                enabled: true,
-                series: {
-                    type: "line"
-                }
+            navigator: navigator,
+            tooltip: {
+                shared: false,
+                xDateFormat: "%e. %B %Y %H:%M:%S"
             },
-            rangeSelector : {
+            series: []
+        };
+
+
+        if (cuxchart.queryParams["range"]) {
+            cuxchart.chartOptions.rangeSelector = {
+                enabled: false
+
+            };
+            cuxchart.chartOptions.xAxis.range = parseFloat(cuxchart.queryParams["range"]) * 3600 * 1000;
+        } else {
+                cuxchart.chartOptions.rangeSelector = {
                 inputDateFormat: "%e. %b %Y",
                 buttons : [{
                     type : 'hour',
@@ -223,22 +282,21 @@ var cuxchart = {
                 }],
                 selected : 1,
                 inputEnabled : true
-            },
-            tooltip: {
-                shared: false,
-                xDateFormat: "%e. %B %Y %H:%M:%S"
-            },
-            series: []
-        };
+            };
+        }
+        if (cuxchart.queryParams["zoom"] == "false") {
+            cuxchart.chartOptions.chart.zoomType = undefined;
+        }
         //console.log(cuxchart.first);
         //console.log(cuxchart.chartOptions);
         //cuxchart.chart = new Highcharts.StockChart();
     },
-    loadLog: function (log, callback) {
+    loadLog: function (log, callback, cache) {
         jQuery("#loader_output").append("<span class='ajax-loader'></span> lade "+log+" ");
         jQuery.ajax({
             url: 'ajax/log.cgi?logfile='+log,
             type: 'get',
+            cache: (cache ? true : false),
             success: function (data) {
                 var lines = data.split("\n");
                 var triple = lines[0].split(" ");
@@ -292,7 +350,7 @@ var cuxchart = {
         jQuery("#skip").show();
         var log = cuxchart.cuxdConfig.OLDLOGS.pop();
         if (log) {
-            cuxchart.loadLog(log, cuxchart.loadOldLogs);
+            cuxchart.loadLog(log, cuxchart.loadOldLogs, true);
         } else {
             // Keine weiteren Logs vorhanden.
             jQuery("#skip").hide();
