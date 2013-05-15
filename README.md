@@ -25,6 +25,7 @@ Den Ordner cuxchart aus [diesem Zip-File](https://github.com/hobbyquaker/CUxD-Hi
 Über Parameter in der URL können verschiedene Optionen von CUxD-Highcharts gesteuert werden.
 
 Beispiel:    
+
     http://homematic/addons/cuxchart/?navigator=false&scrollbar=false&legend=inline&zoom=false&range=24&period=24&dp=CUX0600101:1.MEAN5MINUTES,CUX0600101:1.METER
 
 #### theme
