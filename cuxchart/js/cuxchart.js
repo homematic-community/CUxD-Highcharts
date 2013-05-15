@@ -137,6 +137,19 @@ var cuxchart = {
     },
     initHighcharts: function () {
 
+        if (cuxchart.queryParams["theme"]) {
+            jQuery.getScript('themes/' + cuxchart.queryParams.theme+".js", function () {
+                jQuery("body").css("color", Highcharts.theme.legend.itemStyle.color);
+                if (Highcharts.theme.chart.backgroundColor && Highcharts.theme.chart.backgroundColor.stops) { jQuery("body").css("background-color", Highcharts.theme.chart.backgroundColor.stops[0][1]); }
+                jQuery(".loader-output").css("border-color", Highcharts.theme.legend.itemStyle.color);
+
+            });
+
+
+        }
+
+
+
         if (!cuxchart.queryParams["loader"] || cuxchart.queryParams["loader"] != "false") {
                 jQuery("#loader").show();
 

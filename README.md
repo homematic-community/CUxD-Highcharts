@@ -77,7 +77,6 @@ Beispiel:
 ## ToDo
 
 * Maximale Anzahl an Logeinträgen herausexperimentieren :)
-* legend=inline implementieren
 * Tooltip bei Graphentyp Scatter (Datenpunkte PRESS_LONG, PRESS_SHORT, MOTION) korrigieren (Zeit-Formatierung)
 * Unter Titel Log-Einträge pro Minute anzeigen
 * Wie mit CUxD Transform-Wrapper-Device Datenpunkten umgehen?
