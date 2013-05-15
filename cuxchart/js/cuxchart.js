@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.3beta2",
+    version: "1.3beta3",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
@@ -151,7 +151,9 @@ var cuxchart = {
 
 
         if (!cuxchart.queryParams["loader"] || cuxchart.queryParams["loader"] != "false") {
-                jQuery("#loader").show();
+            jQuery("#loader").show();
+            jQuery("#loader_small").hide();
+
 
         }
         if (cuxchart.queryParams["period"]) {
@@ -438,15 +440,17 @@ var cuxchart = {
                 }
                 cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)), 10),0],[parseInt(Date.parse(cuxchart.last), 10),0]];
 
-                $("#continue").show().click(function () {
-                    $("#loader").hide();
+                jQuery("#continue").show().click(function () {
+                    jQuery("#loader").hide();
                     cuxchart.renderChart();
                 });
 
 
                 //setTimeout(function () {
-                    $("#loader").hide();
-                    cuxchart.renderChart();
+                jQuery("#loader").hide();
+                jQuery("#loader_small").hide();
+
+                cuxchart.renderChart();
                 //}, 1);
 
 

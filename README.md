@@ -2,6 +2,10 @@
 
 Zusatzsoftware für die HomeMatic CCU um CUxD DEVLOGS mit Highcharts zu visualisieren
 
+## Features
+
+
+
 ## Installation
 
 ### Als Zusatzsoftware
@@ -26,6 +30,10 @@ Den Ordner cuxchart aus [diesem Zip-File](https://github.com/hobbyquaker/CUxD-Hi
 
 Beispiel:
     http://homematic/addons/cuxchart/?navigator=false&scrollbar=false&legend=inline&zoom=false&range=24&period=24&dp=CUX0600101:1.MEAN5MINUTES,CUX0600101:1.METER
+
+#### theme
+
+* THEME - Darstellung nach Geschmack aufhübschen ;) Bisher stehen zur Verfügung: grid, skies, dark-green, dark-blue und gray
 
 #### dp
 
@@ -55,6 +63,7 @@ Beispiel:
 
 ### 1.3
 * Steuerung verschiedener Optionen über URL-Parameter
+* Themes
 * Datenpunkte in Legende alphabetisch sortiert
 * Fehler beim Speichern der ausgewählten Datenreihen behoben
 * Caching der alten Logs

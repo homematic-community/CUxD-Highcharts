@@ -58,12 +58,22 @@ table#stats {
 }
 
 .ajax-loader {
-    display: inline-block;
     background: url(../img/loading.gif) no-repeat;
+    display: inline-block;
     height: 11px;
     padding-top: 5px;
     width: 16px;
     vertical-align: middle;
+}
+.ajax-loader-small {
+    background: url(../img/loading.gif) no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width:32px;
+    height: 32px;
+    margin:-16px 0 0 -16px;
+
 }
 .ajax-check {
     display: inline-block;
