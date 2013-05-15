@@ -9,11 +9,6 @@
 # 5'2013 hobbyquaker https://github.com/hobbyquaker
 #
 
-
-puts "Content-Type: text/plain;Charset=ISO-8859-1"
-puts "Access-Control-Allow-Origin: *"
-puts ""
-
 catch {
   set input $env(QUERY_STRING)
   set pairs [split $input &]
@@ -23,6 +18,17 @@ catch {
     }
   }
 }
+
+puts "Content-Type: text/plain;Charset=ISO-8859-1"
+puts "Access-Control-Allow-Origin: *"
+if {[info exists cache]} {
+    puts "Cache-Control: public, max-age=31536000"
+} else {
+    puts "Cache-Control: no-cache, max-age=0"
+}
+puts ""
+
+
 
 if {[info exists logfile]} {
     set fp [open $logfile r]

@@ -33,9 +33,12 @@ var cuxchart = {
     chartOptions: {},
     queryParams: getUrlVars(),
     storageKey: "cuxchart",
-    cache: {},
+    cache: {
+        visible: []
+    },
     first: "2200-00-00T00:00:00",
     last: "0000-00-00T00:00:00",
+    start: "0000-00-00T00:00:00",
     countDp: 0,
     countVal: 0,
     dpInfos: {},
@@ -134,10 +137,27 @@ var cuxchart = {
     },
     initHighcharts: function () {
 
-        if (cuxchart.queryParams["loader"] == false) {
-                jQuery("#loader").hide();
-        }
+        if (!cuxchart.queryParams["loader"] || cuxchart.queryParams["loader"] != "false") {
+                jQuery("#loader").show();
 
+        }
+        if (cuxchart.queryParams["period"]) {
+            var now = new Date().getTime();
+            var dateObj = new Date(now - (parseFloat(cuxchart.queryParams["period"]) * 3600000));
+            var year = dateObj.getFullYear();
+            var month = (dateObj.getMonth() + 1).toString(10);
+            month = (month.length == 1 ? "0" + month : month);
+            var day = dateObj.getDate().toString(10);
+            day = (day.length == 1 ? "0" + day : day);
+            var hour = dateObj.getHours().toString(10);
+            hour = (hour.length == 1 ? "0" + hour : hour);
+            var minute = dateObj.getMinutes().toString(10);
+            minute = (minute.length == 1 ? "0" + minute : minute);
+            var second = dateObj.getSeconds().toString(10);
+            second = (second.length == 1 ? "0" + second : second);
+            cuxchart.start = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second;
+
+        }
         cuxchart.cache = storage.get(cuxchart.storageKey);
 
         if (cuxchart.queryParams["dp"]) {
@@ -248,8 +268,11 @@ var cuxchart = {
             },
             series: []
         };
-
-
+        if (cuxchart.queryParams["scrollbar"] == "false") {
+            cuxchart.chartOptions.scrollbar = {
+                enabled : false
+            };
+        }
         if (cuxchart.queryParams["range"]) {
             cuxchart.chartOptions.rangeSelector = {
                 enabled: false
@@ -294,7 +317,7 @@ var cuxchart = {
     loadLog: function (log, callback, cache) {
         jQuery("#loader_output").append("<span class='ajax-loader'></span> lade "+log+" ");
         jQuery.ajax({
-            url: 'ajax/log.cgi?logfile='+log,
+            url: 'ajax/log.cgi?logfile='+log+(cache?'&cache=true':''),
             type: 'get',
             cache: (cache ? true : false),
             success: function (data) {
@@ -303,7 +326,13 @@ var cuxchart = {
                 var ts = triple[0];
                 var dp, val;
                 if (ts < cuxchart.first) {
-                        cuxchart.first = ts;
+                    cuxchart.first = ts;
+
+
+
+                    if (ts < cuxchart.start) {
+                        cuxchart.cuxdConfig.OLDLOGS = [];
+                    }
                         jQuery("#log_first").html(ts.replace(/T/, " "));
 
                 }
@@ -312,8 +341,14 @@ var cuxchart = {
                 var tmpArr = {};
                 for (var i = 0; i < lines.length; i++) {
                     triple = lines[i].split(" ");
+                    if (cuxchart.queryParams["dp"]) {
+                         if (cuxchart.cache.visible.indexOf(triple[1]) == -1) {
+                             continue;
+                         }
+                    }
                     if (triple.length === 3) {
                         ts = triple[0];
+                        if (ts <= cuxchart.start) { continue; }
                         dp = triple[1];
                         val = triple[2];
                         if (!cuxchart.dates[dp]) {
@@ -373,7 +408,7 @@ var cuxchart = {
 
                     cuxchart.addSeries(cuxchart.revDpInfos[tmpArr[i]]);
                 }
-                cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(cuxchart.first), 10),0],[parseInt(Date.parse(cuxchart.last), 10),0]];
+                cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)), 10),0],[parseInt(Date.parse(cuxchart.last), 10),0]];
 
                 $("#continue").show().click(function () {
                     $("#loader").hide();
@@ -512,6 +547,7 @@ var cuxchart = {
 
         switch (dptype) {
             case "METER":
+            case "RAIN_CTR":
                 type = "column",
 
                 grouping = {
@@ -540,6 +576,13 @@ var cuxchart = {
 
             case "TEMPERATURE":
             case "HUMIDITY":
+            case "HUMIDITYF":
+            case "DEW_POINT":
+            case "ABS_HUMIDITY":
+            case "HUM_MAX_24H":
+            case "HUM_MIN_24H":
+            case "TEMP_MAX_24H":
+            case "TEMP_MIN_24H":
             case "MEAN5MINUTES":
             case "BRIGHTNESS":
                 type = "spline";

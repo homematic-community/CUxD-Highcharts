@@ -41,8 +41,8 @@ body {
     position: absolute;
     left: 230px;
     top: 70px;
-    background-color: #fdfeff;
-    border: 1px solid black;
+    border: 1px solid #333;
+    border-radius: 12px;
     width:738px;
     height:320px;
     overflow-x:hidden;
@@ -79,4 +79,11 @@ table#stats {
     height: 16px;
     width: 16px;
     vertical-align: middle;
+}
+
+.loader-buttons {
+    font-family: sans-serif;
+    font-size: 12px;
+    padding: 10px;
+
 }

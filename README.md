@@ -1,4 +1,4 @@
-# CUxD-Highcharts 1.2
+# CUxD-Highcharts 1.3
 
 Zusatzsoftware für die HomeMatic CCU um CUxD DEVLOGS mit Highcharts zu visualisieren
 
@@ -15,7 +15,7 @@ Den Ordner cuxchart aus dem [Zip-File](https://github.com/hobbyquaker/CUxD-Highc
 
 
 
-## Verwendung
+## Dokumentation
 
 * http://ccu/addons/cuxchart/ aufrufen
 
@@ -24,7 +24,19 @@ CUxD-Highcharts liest das Config-File des CUxD aus und findet so das Logfile. Es
 Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8 beschrieben.
 Der Parameter DEVTIMEFORMAT muss auf seinem Default-Wert %Y-%m-%dT%X bleiben.
 
+### URL Parameter
+
+Beispiel:
+
+   http://homematic/addons/cuxchart/?legend=false&navigator=false&zoom=false&scrollbar=false&loader=false&dp=CUX0600101:1.MEAN5MINUTES,CUX0600101:1.METER
+
+
 ## Changelog
+
+
+
+### 1.3
+
 
 ### 1.2
 * Verwendung von Highstock
