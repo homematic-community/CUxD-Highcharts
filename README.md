@@ -1,10 +1,6 @@
 # CUxD-Highcharts 1.3
 
-Zusatzsoftware für die HomeMatic CCU um CUxD DEVLOGS mit Highcharts zu visualisieren
-
-## Features
-
-
+Zusatzsoftware für die HomeMatic CCU um CUxD DEVLOGS via Highcharts/Highstock zu visualisieren
 
 ## Installation
 
@@ -28,7 +24,7 @@ Den Ordner cuxchart aus [diesem Zip-File](https://github.com/hobbyquaker/CUxD-Hi
 
 Über Parameter in der URL können verschiedene Optionen von CUxD-Highcharts gesteuert werden.
 
-Beispiel:
+Beispiel:    
     http://homematic/addons/cuxchart/?navigator=false&scrollbar=false&legend=inline&zoom=false&range=24&period=24&dp=CUX0600101:1.MEAN5MINUTES,CUX0600101:1.METER
 
 #### theme
@@ -39,25 +35,54 @@ Beispiel:
 
 * DATAPOINTS - Eine Komma-getrennte Liste von Datenpunkten die geladen und angezeigt werden sollen
 
-#### navigator
-* false - Navigations-Bereich unten wird ausgeblendet
-
-#### scrollbar
-* false - Scrollbar wird ausgeblendet
-
-#### legend
-* false - Legende, Überschrift und Credits werden ausgeblendet
-* inline - Legende wird im Graph angezeigt, Überschrift und Credits werden ausgeblendet
-
-#### zoom
-* false - Kein Zoomen möglich
-
 #### range
+
 * HOURS - Setzt Zoomstufe auf HOURS Stunden
 
 #### period
+
 * HOURS - Lädt nur Logeinträge aus den letzten HOURS Stunden
 
+#### loader
+
+* false - blendet die Infos beim Laden aus
+
+#### navigator
+
+* false - Navigations-Bereich unten wird ausgeblendet
+
+#### scrollbar
+
+* false - Scrollbar wird ausgeblendet
+
+#### legend
+
+* false - Legende, Überschrift und Credits werden ausgeblendet
+* inline - Legende wird horiziontal oben im Graph angezeigt, Überschrift und Credits werden ausgeblendet
+
+#### zoom
+
+* false - Kein Zoomen möglich
+
+## ToDo / Roadmap
+
+### ASAP
+
+* Fehler beheben: in bestimmten Konstellationen (Browser, Zeitzone, ...?) ist die Beschriftung der X-Achse um 1 oder 2h verschoben
+* Maximale Anzahl an Logeinträgen herausexperimentieren :)
+* Tooltip bei Graphentyp Scatter (Datenpunkte PRESS_LONG, PRESS_SHORT, MOTION) korrigieren (Zeit-Formatierung)
+
+### 1.4
+
+* Wie mit CUxD Transform-Wrapper-Device Datenpunkten umgehen?
+* Config-File oder Config-Dialog um Datenreihen-Optionen individuell anzupassen
+* Tooltip erweitern: Anzahl Werte, Zeitpunkt erster und letzter Wert, Anzahl Log-Einträge, Mittel, Median, Min, Max, ...?
+* Unter Titel Log-Einträge pro Minute anzeigen
+
+### Vielleicht/irgendwann
+
+* Marker setzen und speichern
+* exporting (Highcharts Modul bietet PDF, JPG, SVG usw an)
 
 ## Changelog
 
@@ -83,14 +108,7 @@ Beispiel:
 ### 1.0
 * Erstes öffentliches Release
 
-## ToDo
 
-* Maximale Anzahl an Logeinträgen herausexperimentieren :)
-* Tooltip bei Graphentyp Scatter (Datenpunkte PRESS_LONG, PRESS_SHORT, MOTION) korrigieren (Zeit-Formatierung)
-* Unter Titel Log-Einträge pro Minute anzeigen
-* Wie mit CUxD Transform-Wrapper-Device Datenpunkten umgehen?
-* Config-File oder Config-Dialog um Datenreihen-Optionen individuell anzupassen
-* Tooltip erweitern: Anzahl Werte, Zeitpunkt erster und letzter Wert, Anzahl Log-Einträge, Mittel, Median, Min, Max, ...?
 
 ## Verwendete Software
 
