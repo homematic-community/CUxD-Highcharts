@@ -11,32 +11,54 @@ Im HomeMatic WebUI cuxchart.tar.gz als Zusatzsoftware installieren. Download üb
 ### Per FTP/SCP
 (Vorteil: kein Zwangsreboot der CCU, Nachteil: die Software taucht nicht in der Liste der installierten Zusatzsoftware auf und lässt sich dort auch nicht deinstallieren)
 
-Den Ordner cuxchart aus dem [Zip-File](https://github.com/hobbyquaker/CUxD-Highcharts/archive/master.zip) auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
-
+Den Ordner cuxchart aus [diesem Zip-File](https://github.com/hobbyquaker/CUxD-Highcharts/archive/master.zip) auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
 
 
 ## Dokumentation
 
-* http://ccu/addons/cuxchart/ aufrufen
+* Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8 beschrieben. Der Parameter DEVTIMEFORMAT muss auf seinem Default-Wert %Y-%m-%dT%X bleiben.
+* CUxD-Highcharts liest das Config-File des CUxD aus und findet so das Logfile. Es ist daher keine weitere Konfiguration notwendig.
+* Einfach installieren und http://ccu/addons/cuxchart/ aufrufen
 
-CUxD-Highcharts liest das Config-File des CUxD aus und findet so das Logfile. Es ist daher keine Konfiguration notwendig.
+### URL-Parameter
 
-Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8 beschrieben.
-Der Parameter DEVTIMEFORMAT muss auf seinem Default-Wert %Y-%m-%dT%X bleiben.
-
-### URL Parameter
+Über Parameter in der URL können verschiedene Optionen von CUxD-Highcharts gesteuert werden.
 
 Beispiel:
+    http://homematic/addons/cuxchart/?navigator=false&scrollbar=false&legend=inline&zoom=false&range=24&period=24&dp=CUX0600101:1.MEAN5MINUTES,CUX0600101:1.METER
 
-   http://homematic/addons/cuxchart/?legend=false&navigator=false&zoom=false&scrollbar=false&loader=false&dp=CUX0600101:1.MEAN5MINUTES,CUX0600101:1.METER
+#### dp
+
+* DATAPOINTS - Eine Komma-getrennte Liste von Datenpunkten die geladen und angezeigt werden sollen
+
+#### navigator
+* false - Navigations-Bereich unten wird ausgeblendet
+
+#### scrollbar
+* false - Scrollbar wird ausgeblendet
+
+#### legend
+* false - Legende, Überschrift und Credits werden ausgeblendet
+* inline - Legende wird im Graph angezeigt, Überschrift und Credits werden ausgeblendet
+
+#### zoom
+* false - Kein Zoomen möglich
+
+#### range
+* HOURS - Setzt Zoomstufe auf HOURS Stunden
+
+#### period
+* HOURS - Lädt nur Logeinträge aus den letzten HOURS Stunden
 
 
 ## Changelog
 
-
-
 ### 1.3
-
+* Steuerung verschiedener Optionen über URL-Parameter
+* Datenpunkte in Legende alphabetisch sortiert
+* Fehler beim Speichern der ausgewählten Datenreihen behoben
+* Caching der alten Logs
+* diverse Bugfixes und kleine Verbesserungen
 
 ### 1.2
 * Verwendung von Highstock
@@ -55,16 +77,18 @@ Beispiel:
 ## ToDo
 
 * Maximale Anzahl an Logeinträgen herausexperimentieren :)
-* Über Querystring steuerbar machen: Anzeigte Datenreihen, Anzeige der Legende, Anzeige des Navigators
+* legend=inline implementieren
 * Tooltip bei Graphentyp Scatter (Datenpunkte PRESS_LONG, PRESS_SHORT, MOTION) korrigieren (Zeit-Formatierung)
-* Unter Titel durchschn. Log-Einträge pro Minute anzeigen
-* Fehler beheben: 1. Datenreihe wird immer wieder selektiert...
+* Unter Titel Log-Einträge pro Minute anzeigen
+* Wie mit CUxD Transform-Wrapper-Device Datenpunkten umgehen?
+* Config-File oder Config-Dialog um Datenreihen-Optionen individuell anzupassen
+* Tooltip erweitern: Anzahl Werte, Zeitpunkt erster und letzter Wert, Anzahl Log-Einträge, Mittel, Median, Min, Max, ...?
 
 ## Verwendete Software
 
 * [jQuery](http://www.jquery.com)
 * [loStorage](https://github.com/js-coder/loStorage.js)
-* [Highcharts / Highstock](http://www.highcharts.com)
+* [Highcharts / Highstock - Non-Commercial License - keine kommerzielle Verwendung!](http://www.highcharts.com)
 
 ## Copyright, Lizenz, Bedingungen
 

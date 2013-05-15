@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.3beta1",
+    version: "1.3beta2",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
@@ -193,6 +193,21 @@ var cuxchart = {
                 credits = {
                     enabled: false
                 }
+        } else if (cuxchart.queryParams["legend"] == "inline") {
+            jQuery("#title").hide();
+            legend = {
+                enabled: true,
+                layout: 'horizontal',
+                align: 'center',
+                floating: true,
+                verticalAlign: 'top',
+                y: 38
+            };
+            credits = {
+                enabled: false
+            };
+
+
             } else {
 
                 legend = {
