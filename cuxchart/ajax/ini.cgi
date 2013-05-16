@@ -30,6 +30,9 @@ while {[gets $fp line] >= 0} {
         }
         if {[string match "DEVLOGMOVE=*" $line]} {
             set cuxmove [string range $line 11 end]
+            if {[string index $cuxmove end] != "/"} {
+                append cuxmove "/"
+            }
         }
         puts $line
     }

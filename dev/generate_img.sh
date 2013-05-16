@@ -1,18 +1,11 @@
 #!/bin/sh
 
 rm -r tmp
-mkdir -p tmp/cuxchart/ajax
-mkdir -p tmp/cuxchart/css
-mkdir -p tmp/cuxchart/img
-mkdir -p tmp/cuxchart/js
+mkdir -p tmp/cuxchart
 
 cp dev/cuxd-highcharts tmp/
 cp dev/update_script tmp/
 cp -a cuxchart/* tmp/cuxchart
-cp -a cuxchart/ajax/* tmp/cuxchart/ajax
-cp -a cuxchart/css/* tmp/cuxchart/css
-cp -a cuxchart/img/* tmp/cuxchart/img
-cp -a cuxchart/js/* tmp/cuxchart/js
 
 cd tmp
 
