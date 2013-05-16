@@ -428,15 +428,22 @@ var cuxchart = {
                 var tmpArr = [];
                 for (var dp in cuxchart.dates) {
                     var tmp = dp.split(".");
-                    tmpArr.push(cuxchart.dpInfos[dp].ChannelName + "." + tmp[1]);
+                    if (!tmp[1]) { tmp[1] = ""; } else { tmp[1] = "." + tmp[1]; }
+                    tmpArr.push(cuxchart.dpInfos[dp].ChannelName + tmp[1]);
                    // cuxchart.addSeries(dp);
                 }
                 tmpArr.sort();
+                //console.log("*** tmpArr ***");
                 //console.log(tmpArr);
                 //console.log(cuxchart.revDpInfos);
+                var serie;
                  for (var i = 0; i<tmpArr.length; i++) {
-
-                    cuxchart.addSeries(cuxchart.revDpInfos[tmpArr[i]]);
+                     if (cuxchart.revDpInfos[tmpArr[i]]) {
+                         serie = cuxchart.revDpInfos[tmpArr[i]];
+                     } else {
+                         serie = tmpArr[i]
+                     }
+                     cuxchart.addSeries(serie);
                 }
                 cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)), 10),0],[parseInt(Date.parse(cuxchart.last), 10),0]];
 
@@ -543,7 +550,11 @@ var cuxchart = {
 
         if (cuxchart.dpInfos[dp]) {
             var nameappend = dp.split(".");
+            if (nameappend[1]) {
             nameappend = " "+nameappend[1];
+            } else {
+                nameappend = "";
+            }
             if (cuxchart.dpInfos[dp].ValueUnit) {
                 nameappend += " ["+jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text()+"]";
             }
