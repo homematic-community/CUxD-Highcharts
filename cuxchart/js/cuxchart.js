@@ -454,7 +454,7 @@ var cuxchart = {
                      }
                      cuxchart.addSeries(serie);
                 }
-                cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)), 10)+cuxchart.tzOffset,0],[parseInt(Date.parse(cuxchart.last), 10)+cuxchart.tzOffset,0]];
+                cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(((cuxchart.start > cuxchart.first) ? cuxchart.start.replace(/-/, "/").replace(/T/, " ") : cuxchart.first.replace(/-/, "/").replace(/T/, " "))), 10),0],[parseInt(Date.parse(cuxchart.last.replace(/-/, "/").replace(/T/, " ")), 10),0]];
 
                 jQuery("#continue").show().click(function () {
                     jQuery("#loader").hide();
