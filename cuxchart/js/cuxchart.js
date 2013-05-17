@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.3.2",
+    version: "1.3.2b",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
@@ -295,7 +295,13 @@ var cuxchart = {
             navigator: navigator,
             tooltip: {
                 shared: false,
-                xDateFormat: "%e. %B %Y %H:%M:%S"
+                //valueDecimals: 3,
+                //xDateFormat: "%e. %b %Y %H:%M:%S",
+                formatter: function() {
+                        return this.series.options.name + '<br>' + // return stored text
+                            'Value: ' + parseFloat(this.y).toFixed(this.series.options.valueDecimals) + this.series.options.valueSuffix;
+
+                }
             },
             series: []
         };
@@ -563,7 +569,7 @@ var cuxchart = {
             }
 
             name = cuxchart.dpInfos[dp].ChannelName +nameappend;
-            valueunit = cuxchart.dpInfos[dp].ValueUnit;
+            valueunit = jQuery("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text();
 
         } else {
             name = cuxchart.cuxdConfig.REVALIASES[dp];
@@ -582,9 +588,11 @@ var cuxchart = {
         };
         var step = undefined;
         var unit = "";
+        var valuedecimals = 3;
         var factor = 1;
         var yAxis = 0;
         var grouping = undefined;
+
 
 
         var dptype = dp.split(".");
@@ -618,6 +626,7 @@ var cuxchart = {
                     ]]
 
                 }
+                valuedecimals = 3;
                 break;
 
             case "TEMPERATURE":
@@ -629,8 +638,15 @@ var cuxchart = {
             case "HUM_MIN_24H":
             case "TEMP_MAX_24H":
             case "TEMP_MIN_24H":
+                valuedecimals = 1;
+                type = "spline";
+                break;
             case "MEAN5MINUTES":
+                valuedecimals = 3;
+                type = "spline";
+                break;
             case "BRIGHTNESS":
+                valuedecimals = 0;
                 type = "spline";
                 break;
             case "LEVEL":
@@ -638,6 +654,7 @@ var cuxchart = {
                 step = "left";
                 unit = "%";
                 yAxis = 1;
+                valuedecimals = 2;
                 break;
 
             case "PRESS_SHORT":
@@ -659,6 +676,7 @@ var cuxchart = {
                 };
                 break;
             default:
+                valuedecimals = 3;
                 type = "line";
                 step = "left";
 
@@ -671,7 +689,8 @@ var cuxchart = {
             type: type,
             step: step,
             marker: marker,
-            unit: jQuery("<div/>").html(valueunit).text(),
+            valueDecimals: valuedecimals,
+            valueSuffix: valueunit,
             visible: visible,
             pointWidth: 16,
             dataGrouping: grouping,
