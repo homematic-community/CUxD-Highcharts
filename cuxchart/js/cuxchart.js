@@ -398,7 +398,7 @@ var cuxchart = {
                         }
                         if (!tmpArr[dp]) { tmpArr[dp] = []; }
 
-                        var x = parseInt(Date.parse(ts.replace(/-/, "/").replace(/T/, " ")), 10); // + cuxchart.tzOffset;
+                        var x = parseInt(cuxchart.parseDate(ts)); // + cuxchart.tzOffset;
 
                         tmpArr[dp].push([x, parseFloat(val)]);
                     }
@@ -454,7 +454,7 @@ var cuxchart = {
                      }
                      cuxchart.addSeries(serie);
                 }
-                cuxchart.chartOptions.navigator.series.data = [[parseInt(Date.parse(((cuxchart.start > cuxchart.first) ? cuxchart.start.replace(/-/, "/").replace(/T/, " ") : cuxchart.first.replace(/-/, "/").replace(/T/, " "))), 10),0],[parseInt(Date.parse(cuxchart.last.replace(/-/, "/").replace(/T/, " ")), 10),0]];
+                cuxchart.chartOptions.navigator.series.data = [[cuxchart.parseDate(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)),0],[cuxchart.parseDate(cuxchart.last),0]];
 
                 jQuery("#continue").show().click(function () {
                     jQuery("#loader").hide();
@@ -474,6 +474,18 @@ var cuxchart = {
 
 
         }
+
+    },
+    parseDate: function (str) {
+        /*
+        var parts = str.split("T");
+        var ts = Date.parse(parts[0].replace(/-/, "/"));
+        parts = parts[1].split(":");
+        ts = ts + (((parts[0] * 3600) + (parts[1] * 60) + parts[2]) * 1000);
+        return ts;
+         */
+        var ts = Date.parse(str);
+        return ts;
 
     },
     loadData: function (callback) {
