@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.3.2b",
+    version: "1.3.2c",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
@@ -298,8 +298,8 @@ var cuxchart = {
                 //valueDecimals: 3,
                 //xDateFormat: "%e. %b %Y %H:%M:%S",
                 formatter: function() {
-                        return this.series.options.name + '<br>' + // return stored text
-                            'Value: ' + parseFloat(this.y).toFixed(this.series.options.valueDecimals) + this.series.options.valueSuffix;
+                        return '<b>'+cuxchart.dpInfos[this.series.options.cuxchart].ChannelName + '</b><br>' + this.series.options.cuxchart + '<br>' + // return stored text
+                            Highcharts.dateFormat("%e. %b %Y %H:%M:%S", this.x) + ' - <b>' + parseFloat(this.y).toFixed(this.series.options.valueDecimals) + this.series.options.valueSuffix + "</b>";
 
                 }
             },
@@ -398,7 +398,7 @@ var cuxchart = {
                         }
                         if (!tmpArr[dp]) { tmpArr[dp] = []; }
 
-                        var x = parseInt(Date.parse(ts), 10) + cuxchart.tzOffset;
+                        var x = parseInt(Date.parse(ts.replace(/-/, "/").replace(/T/, " ")), 10); // + cuxchart.tzOffset;
 
                         tmpArr[dp].push([x, parseFloat(val)]);
                     }
@@ -610,10 +610,10 @@ var cuxchart = {
                         return (approx ? approx : 0);
                     },
                     enabled: true,
-                    forced: true,
+                    forced: false,
                     units: [[
                         'hour',
-                        [1,2,3,4,5,6,12]
+                        [1, 2, 3, 4, 6, 8, 12]
                     ], [
                         'day',
                         [1]
