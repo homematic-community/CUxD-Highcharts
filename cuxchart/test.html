@@ -4,10 +4,11 @@
     <title>CUxD-Highcharts</title>
     <link rel="stylesheet" type="text/css" href="css/cuxchart.css"/>
     <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/highcharts.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#out").append(Date());
+            $("#out").append("Date() "+(new Date())+"\n");
+            $("#out").append("Date().getTimezoneOffset() " + (new Date().getTimezoneOffset())+"\n");
+
         });
     </script>
 </head>

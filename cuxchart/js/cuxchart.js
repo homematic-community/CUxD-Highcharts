@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.3.1",
+    version: "1.3.2",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
@@ -39,6 +39,7 @@ var cuxchart = {
     first: "2200-00-00T00:00:00",
     last: "0000-00-00T00:00:00",
     start: "0000-00-00T00:00:00",
+    tzOffset: 60000 * (new Date().getTimezoneOffset()),
     countDp: 0,
     countVal: 0,
     dpInfos: {},
@@ -194,7 +195,7 @@ var cuxchart = {
 
             },
             global: {
-                useUTC: true
+                useUTC: false
             }
         });
 
@@ -390,7 +391,9 @@ var cuxchart = {
                             cuxchart.countVal += 1;
                         }
                         if (!tmpArr[dp]) { tmpArr[dp] = []; }
-                        var x = parseInt(Date.parse(ts), 10);
+
+                        var x = parseInt(Date.parse(ts), 10) + cuxchart.tzOffset;
+
                         tmpArr[dp].push([x, parseFloat(val)]);
                     }
                 }
