@@ -1,12 +1,12 @@
 # CUxD-Highcharts 1.3
 
-Zusatzsoftware für die HomeMatic CCU um CUxD DEVLOGS via Highcharts/Highstock zu visualisieren
+Zusatzsoftware für die HomeMatic CCU um CUxD Geräte-Logs via Highcharts/Highstock zu visualisieren
 
 ## Installation
 
 ### Als Zusatzsoftware
 
-Im HomeMatic WebUI cuxchart.tar.gz als Zusatzsoftware installieren. Download über http://homematic-inside.de
+Im HomeMatic WebUI cuxchart_x.x.x.tar.gz als Zusatzsoftware installieren. [Download über homematic-inside.de](http://homematic-inside.de/software/download/item/cuxd-highcharts)
 
 ### Per FTP/SCP
 (Vorteil: kein Zwangsreboot der CCU, Nachteil: die Software taucht nicht in der Liste der installierten Zusatzsoftware auf und lässt sich dort auch nicht deinstallieren)
