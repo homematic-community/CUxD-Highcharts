@@ -494,7 +494,7 @@ var cuxchart = {
             type: 'get',
             success: function (data) {
                 var lines = data.split("\n");
-
+                var logit = 0;
                 for (var i = 0; i < lines.length; i++) {
                     switch (lines[i].slice(0,3)) {
                         case "DEV":
@@ -508,6 +508,7 @@ var cuxchart = {
                         case "LOG":
                             var pair = lines[i].split("=");
                             if (pair[0] == "LOGIT") {
+                                logit += 1;
                                 var values = pair[1].split(" ");
                                 if (values[2] && values[2].match(/[^!]+/)) {
                                     cuxchart.cuxdConfig.ALIASES[values[2]] = values[0]+"."+values[1];
@@ -532,15 +533,18 @@ var cuxchart = {
                 if (!cuxchart.cuxdConfig.DEVLOGFILE || cuxchart.cuxdConfig.DEVLOGFILE == "") {
                     jQuery(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
                     jQuery("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVLOGFILE nicht konfiguriert!");
-                    jQuery.error("CUxD DEVLOGFILE nicht konfiguriert!");
+                    jQuery.error("CUxD DEVLOGFILE nicht konfiguriert");
                 }
                 if (!cuxchart.cuxdConfig.DEVTIMEFORMAT || cuxchart.cuxdConfig.DEVTIMEFORMAT != "%Y-%m-%dT%X") {
-                    console.log(cuxchart.cuxdConfig);
                     jQuery(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
                     jQuery("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVTIMEFROMAT muss auf %Y-%m-%dT%X gesetzt werden!");
                     jQuery.error("CUxD DEVTIMEFORMAT nicht %Y-%m-%dT%X");
                 }
-
+                if (logit < 1) {
+                    jQuery(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
+                    jQuery("#loader_output").append("<br/>\n<b>Fehler: </b>keine CUxD LOGIT Zeile gefunden!");
+                    jQuery.error("CUxD LOGIT fehlt");
+                }
 
                 //console.log(cuxchart.cuxdConfig);
                 cuxchart.ajaxDone();
