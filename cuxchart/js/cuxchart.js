@@ -566,7 +566,7 @@
             var valuedecimals = 3;
             var factor = 1;
             var yAxis = 0;
-            var grouping = undefined;
+            var grouping = { enabled: false };
 
             var dptype = dp.split(".");
             dptype = dptype[1];
