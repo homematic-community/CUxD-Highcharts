@@ -11,7 +11,7 @@ Im HomeMatic WebUI cuxchart_x.x.x.tar.gz als Zusatzsoftware installieren. [Downl
 ### Per FTP/SCP
 (Vorteil: kein Zwangsreboot der CCU, Nachteil: die Software taucht nicht in der Liste der installierten Zusatzsoftware auf und lässt sich dort auch nicht deinstallieren)
 
-Den Ordner cuxchart aus dem .tar.gz File auspacken und auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
+Den Ordner cuxchart aus der .tar.gz Datei auspacken und auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
 
 
 ## Dokumentation
