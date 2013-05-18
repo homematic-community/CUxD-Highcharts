@@ -11,12 +11,12 @@ Im HomeMatic WebUI cuxchart_x.x.x.tar.gz als Zusatzsoftware installieren. [Downl
 ### Per FTP/SCP
 (Vorteil: kein Zwangsreboot der CCU, Nachteil: die Software taucht nicht in der Liste der installierten Zusatzsoftware auf und lässt sich dort auch nicht deinstallieren)
 
-Den Ordner cuxchart aus [diesem Zip-File](https://github.com/hobbyquaker/CUxD-Highcharts/archive/master.zip) auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
+Den Ordner cuxchart aus dem .tar.gz File auspacken und auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
 
 
 ## Dokumentation
 
-* Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8 beschrieben. Der Parameter DEVTIMEFORMAT muss auf seinem Default-Wert %Y-%m-%dT%X bleiben.
+* Wie das Geräte-Logging des CUxD eingerichtet wird ist im [CUxD-Handbuch]() Kapitel 8 beschrieben. Der Parameter DEVTIMEFORMAT muss auf seinem Default-Wert %Y-%m-%dT%X bleiben.
 * CUxD-Highcharts liest das Config-File des CUxD aus und findet so das Logfile. Es ist daher keine weitere Konfiguration notwendig.
 * Einfach installieren und http://ccu/addons/cuxchart/ aufrufen
 
