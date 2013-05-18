@@ -491,7 +491,7 @@
                         $("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVLOGFILE nicht konfiguriert!");
                         $.error("CUxD DEVLOGFILE nicht konfiguriert");
                     }
-                    if (!cuxchart.cuxdConfig.DEVTIMEFORMAT || cuxchart.cuxdConfig.DEVTIMEFORMAT != "%Y-%m-%dT%X" || cuxchart.cuxdConfig.DEVTIMEFORMAT != "'%Y-%m-%dT%X'" || cuxchart.cuxdConfig.DEVTIMEFORMAT != "\"%Y-%m-%dT%X\"") {
+                    if (!cuxchart.cuxdConfig.DEVTIMEFORMAT || (cuxchart.cuxdConfig.DEVTIMEFORMAT != "%Y-%m-%dT%X" && cuxchart.cuxdConfig.DEVTIMEFORMAT != "'%Y-%m-%dT%X'" && cuxchart.cuxdConfig.DEVTIMEFORMAT != "\"%Y-%m-%dT%X\"")) {
                         $(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
                         $("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVTIMEFROMAT muss auf %Y-%m-%dT%X gesetzt werden!");
                         $.error("CUxD DEVTIMEFORMAT nicht %Y-%m-%dT%X");
