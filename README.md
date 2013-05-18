@@ -16,7 +16,7 @@ Den Ordner cuxchart aus der .tar.gz Datei auspacken und auf die CCU nach /www/ad
 
 ## Dokumentation
 
-* Wie das Geräte-Logging des CUxD eingerichtet wird ist im [CUxD-Handbuch]() Kapitel 8 beschrieben. Der Parameter DEVTIMEFORMAT muss auf seinem Default-Wert %Y-%m-%dT%X bleiben.
+* Wie das Geräte-Logging des CUxD eingerichtet wird ist im CUxD-Handbuch Kapitel 8 beschrieben. Der Parameter DEVTIMEFORMAT muss auf seinem Default-Wert %Y-%m-%dT%X bleiben.
 * CUxD-Highcharts liest das Config-File des CUxD aus und findet so das Logfile. Es ist daher keine weitere Konfiguration notwendig.
 * Einfach installieren und http://ccu/addons/cuxchart/ aufrufen
 
