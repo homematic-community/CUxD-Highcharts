@@ -487,7 +487,7 @@ var cuxchart = {
         var ts = Date.parse(str+"Z") + cuxchart.tzOffset;
         return ts;
     },
-    loadData: function (callback) {
+    loadData: function () {
         jQuery("#loader_output").append("<span class='ajax-loader'></span> lade cuxd.ini ");
         jQuery.ajax({
             url: 'ajax/ini.cgi',
@@ -495,6 +495,7 @@ var cuxchart = {
             success: function (data) {
                 var lines = data.split("\n");
                 var logit = 0;
+                // cuxd.ini parsen
                 for (var i = 0; i < lines.length; i++) {
                     switch (lines[i].slice(0,3)) {
                         case "DEV":
@@ -517,16 +518,7 @@ var cuxchart = {
                             }
                             break;
                         default:
-                        /*    if (jQuery.trim(lines[i]) != "") {
-                                var triple = lines[i].split(" ");
-                                var data_dp = triple[1].slice(0, triple[1].length);
-                                if (!cuxchart.dates[data_dp]) {
-                                    cuxchart.dates[data_dp] = [];
-                                }
-                                var ts = parseInt(Date.parse(triple[0]), 10);
-                                cuxchart.dates[data_dp].push([ts, parseFloat(triple[2])]);
-                            }
-                            */
+                            // Nix
                     }
                     cuxchart.cuxdConfig.OLDLOGS.sort();
                 }
@@ -546,12 +538,11 @@ var cuxchart = {
                     jQuery.error("CUxD LOGIT fehlt");
                 }
 
-                //console.log(cuxchart.cuxdConfig);
                 cuxchart.ajaxDone();
+
+                // Logs laden
                 cuxchart.loadLog(cuxchart.cuxdConfig['DEVLOGFILE'], cuxchart.loadOldLogs);
 
-
-                            //if (callback) { callback(); }
             }
         });
     },
@@ -561,8 +552,7 @@ var cuxchart = {
 
     },
     addSeries: function (dp) {
-        //console.log("addSeries("+dp+") ");
-        //console.log(cuxchart.dpInfos[dp].ChannelName);
+
         var visible;
         if (cuxchart.cache && cuxchart.cache.visible.length > 0) {
             if (jQuery.inArray(dp, cuxchart.cache.visible) == -1) {
@@ -577,10 +567,7 @@ var cuxchart = {
                 visible = true;
             }
         }
-        //console.log(dp + " " + visible);
-
         var name, valueunit, type, step;
-
 
         if (cuxchart.dpInfos[dp]) {
             var nameappend = dp.split(".");
@@ -602,7 +589,6 @@ var cuxchart = {
             return false;
         }
 
-
         var marker = {
             enabled: false,
             states: {
@@ -618,11 +604,8 @@ var cuxchart = {
         var yAxis = 0;
         var grouping = undefined;
 
-
-
         var dptype = dp.split(".");
         dptype = dptype[1];
-        //console.log(dptype);
 
         switch (dptype) {
             case "METER":
@@ -631,7 +614,7 @@ var cuxchart = {
 
                 grouping = {
                     approximation: function (data) {
-                        var approx = data[data.length-1]-data[0]
+                        var approx = data[data.length-1]-data[0];
                         return (approx ? approx : 0);
                     },
                     enabled: true,
@@ -707,7 +690,6 @@ var cuxchart = {
 
         }
 
-
         var serie = {
             cuxchart: dp,
             name: name,
@@ -727,18 +709,13 @@ var cuxchart = {
                 legendItemClick: function () {
 
                     setTimeout(function () {
-                        //console.log(cuxchart.chart.series);
-
+                        // Ausgewählte Datenreihen im LocalStorage sichern
                         var tmpArr = [];
                         for (var i = 0; i < cuxchart.chart.series.length; i++) {
                             if (cuxchart.chart.series[i].visible && cuxchart.chart.series[i].name && cuxchart.chart.series[i].name != "Navigator") {
-                                //console.log(cuxchart.chart.series[i]);
-
                                 tmpArr.push(cuxchart.chart.series[i].userOptions.cuxchart);
                             }
                         }
-                        //console.log(tmpArr);
-                        //console.log(cuxchart.chart.getSelectedSeries());
                         storage.set(cuxchart.storageKey, {visible: tmpArr});
                         cuxchart.saveSettings();
                     }, 1000);
@@ -747,7 +724,6 @@ var cuxchart = {
 
         };
         cuxchart.chartOptions.series.push(serie);
-        //cuxchart.chart.addSeries(serie);
     }
 };
 
