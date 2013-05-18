@@ -77,6 +77,13 @@ Beispiel:
 
 ## Changelog
 
+### 1.3.5
+* Fehler beim verarbeiten der Zeitzone behoben
+* Tooltips neu formatiert
+* Notwendige CUxD Settings (DEVLOGFILE, DEVTIMEFORMAT, min. 1 LOGIT Eintrag) werden geprüft
+* diverse Fehler behoben und kleine Änderungen vorgenommen
+* Code aufgeräumt, .tar.gz wird nun mit minifizierter cuxchart.js ausgeliefert 
+
 ### 1.3
 * Steuerung verschiedener Optionen über URL-Parameter
 * Themes
