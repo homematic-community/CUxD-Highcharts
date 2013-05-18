@@ -73,7 +73,7 @@ var cuxchart = {
         }
 
         jQuery("#loader_output").append("<span class='ajax-loader'></span> frage Datenpunkt-Infos von CCU ab");
-        $.ajax({
+        jQuery.ajax({
             url:    "ajax/dpinfos.cgi",
             type:   "post",
             data:   dps.join(";"),
@@ -370,13 +370,10 @@ var cuxchart = {
                 var dp, val;
                 if (ts < cuxchart.first) {
                     cuxchart.first = ts;
-
-
-
                     if (ts < cuxchart.start) {
                         cuxchart.cuxdConfig.OLDLOGS = [];
                     }
-                        jQuery("#log_first").html(ts.replace(/T/, " "));
+                    jQuery("#log_first").html(ts.replace(/T/, " "));
 
                 }
 
@@ -398,18 +395,18 @@ var cuxchart = {
                             cuxchart.dates[dp] = [];
                             cuxchart.countDp += 1;
                             cuxchart.countVal += 1;
-                            $("#count_dp").html(cuxchart.countDp);
+                            jQuery("#count_dp").html(cuxchart.countDp.toString(10));
                         } else {
                             cuxchart.countVal += 1;
                         }
                         if (!tmpArr[dp]) { tmpArr[dp] = []; }
 
-                        var x = parseInt(cuxchart.parseDate(ts)); // + cuxchart.tzOffset;
+                        var x = cuxchart.parseDate(ts);
 
                         tmpArr[dp].push([x, parseFloat(val)]);
                     }
                 }
-                $("#count_val").html(cuxchart.countVal);
+                jQuery("#count_val").html(cuxchart.countVal);
                 for (var tmpDp in tmpArr) {
                     if (!cuxchart.dates[tmpDp]) { cuxchart.dates[tmpDp] = []; }
                     cuxchart.dates[tmpDp] = tmpArr[tmpDp].concat(cuxchart.dates[tmpDp]);
