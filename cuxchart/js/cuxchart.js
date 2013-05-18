@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.3.3",
+    version: "1.3.4",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
@@ -298,8 +298,14 @@ var cuxchart = {
                 //valueDecimals: 3,
                 //xDateFormat: "%e. %b %Y %H:%M:%S",
                 formatter: function() {
+                        var val = parseFloat(this.y).toFixed(this.series.options.valueDecimals);
+                        var unit = this.series.options.valueSuffix;
+                        if (unit == "100%") {
+                            val = val * 100;
+                            unit = "%";
+                        }
                         return '<b>'+cuxchart.dpInfos[this.series.options.cuxchart].ChannelName + '</b><br>' + this.series.options.cuxchart + '<br>' + // return stored text
-                            Highcharts.dateFormat("%e. %b %Y %H:%M:%S", this.x) + ' - <b>' + parseFloat(this.y).toFixed(this.series.options.valueDecimals) + this.series.options.valueSuffix + "</b>";
+                            Highcharts.dateFormat("%e. %b %Y %H:%M:%S", this.x) + ' - <b>' + val + unit + "</b>";
 
                 }
             },
