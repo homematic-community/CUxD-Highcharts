@@ -24,7 +24,7 @@ puts ""
 # Config ausgeben
 set fp [open "/usr/local/addons/cuxd/cuxd.ini" r]
 while {[gets $fp line] >= 0} {
-    if {[string match "DEVLOG*" $line]} {
+    if {[string match "DEV*" $line]} {
         if {[string match "DEVLOGFILE=*" $line]} {
             set cuxfile [string range $line 11 end]
         }

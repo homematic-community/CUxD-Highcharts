@@ -36,7 +36,7 @@ var cuxchart = {
     cache: {
         visible: []
     },
-    first: "2200-00-00T00:00:00",
+    first: "2038-01-18T00:00:00",
     last: "0000-00-00T00:00:00",
     start: "0000-00-00T00:00:00",
     tzOffset: 60000 * (new Date().getTimezoneOffset()),
@@ -483,13 +483,7 @@ var cuxchart = {
 
     },
     parseDate: function (str) {
-/*
-        var parts = str.split("T");
-        var ts = Date.parse(parts[0].replace(/-/, "/"));
-        parts = parts[1].split(":");
-        ts = ts + (((parts[0] * 3600) + (parts[1] * 60) + parts[2]) * 1000);
-        return ts;
-         */
+        // Verlässt sich darauf das CUxD DEVTIMEFORMAT=%Y-%m-%dT%X gesetzt ist
         var ts = Date.parse(str+"Z") + cuxchart.tzOffset;
         return ts;
     },
@@ -502,8 +496,8 @@ var cuxchart = {
                 var lines = data.split("\n");
 
                 for (var i = 0; i < lines.length; i++) {
-                    switch (lines[i].slice(0,6)) {
-                        case "DEVLOG":
+                    switch (lines[i].slice(0,3)) {
+                        case "DEV":
                             var pair = lines[i].split("=");
                             if (pair[0] == "DEVLOGMOVEDFILE") {
                                 cuxchart.cuxdConfig.OLDLOGS.push(pair[1]);
@@ -511,12 +505,14 @@ var cuxchart = {
                             }
                             cuxchart.cuxdConfig[pair[0]] = pair[1];
                             break;
-                        case "LOGIT=":
+                        case "LOG":
                             var pair = lines[i].split("=");
-                            var values = pair[1].split(" ");
-                            if (values[2] && values[2].match(/[^!]+/)) {
-                                cuxchart.cuxdConfig.ALIASES[values[2]] = values[0]+"."+values[1];
-                                cuxchart.cuxdConfig.REVALIASES[values[0]+"."+values[1]] = values[2];
+                            if (pair[0] == "LOGIT") {
+                                var values = pair[1].split(" ");
+                                if (values[2] && values[2].match(/[^!]+/)) {
+                                    cuxchart.cuxdConfig.ALIASES[values[2]] = values[0]+"."+values[1];
+                                    cuxchart.cuxdConfig.REVALIASES[values[0]+"."+values[1]] = values[2];
+                                }
                             }
                             break;
                         default:
@@ -536,8 +532,16 @@ var cuxchart = {
                 if (!cuxchart.cuxdConfig.DEVLOGFILE || cuxchart.cuxdConfig.DEVLOGFILE == "") {
                     jQuery(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
                     jQuery("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVLOGFILE nicht konfiguriert!");
-                    $.error("CUxD DEVLOGFILE nicht konfiguriert!");
+                    jQuery.error("CUxD DEVLOGFILE nicht konfiguriert!");
                 }
+                if (!cuxchart.cuxdConfig.DEVTIMEFORMAT || cuxchart.cuxdConfig.DEVTIMEFORMAT != "%Y-%m-%dT%X") {
+                    console.log(cuxchart.cuxdConfig);
+                    jQuery(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
+                    jQuery("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVTIMEFROMAT muss auf %Y-%m-%dT%X gesetzt werden!");
+                    jQuery.error("CUxD DEVTIMEFORMAT nicht %Y-%m-%dT%X");
+                }
+
+
                 //console.log(cuxchart.cuxdConfig);
                 cuxchart.ajaxDone();
                 cuxchart.loadLog(cuxchart.cuxdConfig['DEVLOGFILE'], cuxchart.loadOldLogs);
