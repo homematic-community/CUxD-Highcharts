@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.3.2d",
+    version: "1.3.3",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
