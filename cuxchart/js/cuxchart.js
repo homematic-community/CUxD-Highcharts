@@ -30,7 +30,7 @@
 ;(function ($) {
 
     var cuxchart = {
-        version: "1.3.5",
+        version: "1.3.6",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),
@@ -279,6 +279,7 @@
                     shared: false,
                     //valueDecimals: 3,
                     //xDateFormat: "%e. %b %Y %H:%M:%S",
+
                     formatter: function() {
                         var val = parseFloat(this.y).toFixed(this.series.options.valueDecimals);
                         var unit = this.series.options.valueSuffix;
@@ -490,7 +491,7 @@
                         $("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVLOGFILE nicht konfiguriert!");
                         $.error("CUxD DEVLOGFILE nicht konfiguriert");
                     }
-                    if (!cuxchart.cuxdConfig.DEVTIMEFORMAT || cuxchart.cuxdConfig.DEVTIMEFORMAT != "%Y-%m-%dT%X") {
+                    if (!cuxchart.cuxdConfig.DEVTIMEFORMAT || cuxchart.cuxdConfig.DEVTIMEFORMAT != "%Y-%m-%dT%X" || cuxchart.cuxdConfig.DEVTIMEFORMAT != "'%Y-%m-%dT%X'" || cuxchart.cuxdConfig.DEVTIMEFORMAT != "\"%Y-%m-%dT%X\"") {
                         $(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
                         $("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVTIMEFROMAT muss auf %Y-%m-%dT%X gesetzt werden!");
                         $.error("CUxD DEVTIMEFORMAT nicht %Y-%m-%dT%X");
@@ -581,10 +582,14 @@
                                 return (approx ? approx : 0);
                             },
                             enabled: true,
-                            forced: false,
+                            forced: true,
+                            groupPixelWidth: 40,
                             units: [[
+                                'minute',
+                                [5,15,30]
+                            ], [
                                 'hour',
-                                [1, 2, 3, 4, 6, 8, 12]
+                                [1, 2, 6, 12]
                             ], [
                                 'day',
                                 [1]
