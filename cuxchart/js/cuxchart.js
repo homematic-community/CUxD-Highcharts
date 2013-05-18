@@ -28,7 +28,7 @@
  */
 
 var cuxchart = {
-    version: "1.3.2c",
+    version: "1.3.2d",
     chart: undefined,
     chartOptions: {},
     queryParams: getUrlVars(),
@@ -477,16 +477,15 @@ var cuxchart = {
 
     },
     parseDate: function (str) {
-        /*
+/*
         var parts = str.split("T");
         var ts = Date.parse(parts[0].replace(/-/, "/"));
         parts = parts[1].split(":");
         ts = ts + (((parts[0] * 3600) + (parts[1] * 60) + parts[2]) * 1000);
         return ts;
          */
-        var ts = Date.parse(str);
+        var ts = Date.parse(str+"Z") + cuxchart.tzOffset;
         return ts;
-
     },
     loadData: function (callback) {
         jQuery("#loader_output").append("<span class='ajax-loader'></span> lade cuxd.ini ");
