@@ -69,13 +69,18 @@ Beispiel:
 
 
 * Config-File oder Config-Dialog um Datenreihen-Optionen individuell anzupassen
-* Tooltip erweitern: Anzahl Werte, Zeitpunkt erster und letzter Wert, Anzahl Log-Einträge, Mittel, Median, Min, Max, ...?
+* Tooltip erweitern, Tooltip in Legende hinzufügen: Anzahl Werte, Zeitpunkt erster und letzter Wert, Anzahl Log-Einträge, Mittel, Median, Min, Max, ...?
+* Kleines Config-Tool um Datenreihen und Parameter komfortabel auszuwählen um eine fertige URL zu erhalten
 * Unter Titel Log-Einträge pro Minute, Zeitpunkt ältester Eintrag und Zeitpunkt letzter Eintrag anzeigen
 * exporting (Highcharts Modul bietet PDF, JPG, SVG usw an)
 * Marker setzen und speichern
 
 
 ## Changelog
+
+### 1.3.8
+* diverse Fehler behoben
+* Verbesserungen beim Aggregieren
 
 ### 1.3.5
 * Fehler beim verarbeiten der Zeitzone behoben
