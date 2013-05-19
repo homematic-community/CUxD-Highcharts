@@ -27,10 +27,12 @@
  *
  */
 
+var cuxchart;
+
 ;(function ($) {
 
-    var cuxchart = {
-        version: "1.3.6",
+    cuxchart = {
+        version: "1.3.7",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),
@@ -281,6 +283,45 @@
                     //xDateFormat: "%e. %b %Y %H:%M:%S",
 
                     formatter: function() {
+                        var date;
+                        if (this.series.hasGroupedData) {
+                            date = "<i>Aggregiert: ";
+                            if (this.series.pointRange == 0) {
+                               pointRange = this.point.series.closestPointRange;
+                               // console.log(Highcharts.dateFormat("%e. %b %Y %H:%M:%S", this.series.processedXData[0]));
+                                date += jQuery("<div/>").html("&#x00d8; ").text();
+                            } else {
+                                pointRange = this.series.pointRange;
+                                date += jQuery("<div/>").html("&#x0394; ").text();
+                            }
+                            var endDate = Highcharts.dateFormat("%H:%M", this.x + pointRange);
+                            if (endDate == "00:00") { endDate = "24:00"; }
+                            if (pointRange < 3600000) {
+                                date += (pointRange / 60000) + " Minuten</i><br/>";
+
+                                date += Highcharts.dateFormat("%e. %b %Y %H:%M", this.x);
+                                date += "-";
+                                date += endDate;
+
+                            } else if (pointRange < 86400000) {
+                                date += (pointRange / 3600000) + " Stunde"+(pointRange > 3600000 ? "n" : "")+"</i><br/>";
+
+                                date += Highcharts.dateFormat("%e. %b %Y %H:%M", this.x);
+                                date += "-";
+                                date += endDate;
+
+                            } else {
+                                date += (pointRange / 86400000) + " Tag"+(pointRange > 86400000 ? "e" : "")+"</i><br/>";
+
+                                date += Highcharts.dateFormat("%e. %b %Y", this.x);
+
+                            }
+
+                        } else {
+                            date = Highcharts.dateFormat("%e. %b %Y %H:%M:%S", this.x);
+                        }
+
+                        //console.log(Highcharts.dateFormat("%e. %b %Y %H:%M:%S", this.series.groupedData[0].x));
                         var val = parseFloat(this.y).toFixed(this.series.options.valueDecimals);
                         var unit = this.series.options.valueSuffix;
                         if (unit == "100%") {
@@ -288,7 +329,7 @@
                             unit = "%";
                         }
                         return '<b>'+cuxchart.dpInfos[this.series.options.cuxchart].ChannelName + '</b><br>' + this.series.options.cuxchart + '<br>' + // return stored text
-                            Highcharts.dateFormat("%e. %b %Y %H:%M:%S", this.x) + ' - <b>' + val + unit + "</b>";
+                            date + ' - <b>' + val + unit + "</b>";
 
                     }
                 },
@@ -566,7 +607,7 @@
             var valuedecimals = 3;
             var factor = 1;
             var yAxis = 0;
-            var grouping = { enabled: false };
+            var grouping = undefined;
 
             var dptype = dp.split(".");
             dptype = dptype[1];
@@ -577,16 +618,16 @@
                     type = "column",
 
                         grouping = {
+                            enabled: true,
                             approximation: function (data) {
                                 var approx = data[data.length-1]-data[0];
                                 return (approx ? approx : 0);
                             },
-                            enabled: true,
-                            forced: true,
+                            forced: false,
                             groupPixelWidth: 40,
                             units: [[
                                 'minute',
-                                [5,15,30]
+                                [30]
                             ], [
                                 'hour',
                                 [1, 2, 6, 12]
@@ -668,7 +709,6 @@
                 valueSuffix: valueunit,
                 visible: visible,
                 pointWidth: 16,
-                dataGrouping: grouping,
                 data: cuxchart.dates[dp],
                 events: {
                     click: function () {
@@ -691,6 +731,9 @@
                 }
 
             };
+            if (grouping) {
+                serie.dataGrouping = grouping;
+            }
             cuxchart.chartOptions.series.push(serie);
         },
         init: function () {
