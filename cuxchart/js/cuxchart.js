@@ -32,7 +32,7 @@ var cuxchart;
 ;(function ($) {
 
     cuxchart = {
-        version: "1.3.7",
+        version: "1.3.8",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),
@@ -284,6 +284,7 @@ var cuxchart;
 
                     formatter: function() {
                         var date;
+                        console.log(this);
                         if (this.series.hasGroupedData) {
                             date = "<i>Aggregiert: ";
                             if (this.series.pointRange == 0) {
@@ -686,11 +687,21 @@ var cuxchart;
                     type = "scatter";
                     break;
                 case "SETPOINT":
-                    type = "line";
-                    step = "left";
                     marker = {
                         enabled: true
                     };
+                    valuedecimals = 1;
+                    type = "line";
+                    step = "left";
+                    grouping = { enabled: false };
+
+                    break;
+                case "VALVE_STATE":
+                    valuedecimals = 0;
+                    type = "line";
+                    step = "left";
+                    grouping = { enabled: false };
+
                     break;
                 default:
                     valuedecimals = 3;
