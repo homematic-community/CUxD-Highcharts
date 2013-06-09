@@ -29,11 +29,14 @@
 
 
 cuxchart.config = {
-    "datapoints": {
-        "default": {
-            "TEMPERATURE": {
+    "defaults": {
+        "TEMPERATURE": {
 
-            }
+        }
+    },
+    "series": {
+        "CUX0600101:1.MEAN5MINUTES": {
+            type: "areaspline"
         }
     }
 };

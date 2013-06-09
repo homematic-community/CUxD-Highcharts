@@ -578,7 +578,7 @@ var cuxchart;
                     visible = true;
                 }
             }
-            var name, valueunit, type, step;
+            var name, valueSuffix, type, step;
 
             if (cuxchart.dpInfos[dp]) {
                 var nameappend = dp.split(".");
@@ -592,11 +592,11 @@ var cuxchart;
                 }
 
                 name = cuxchart.dpInfos[dp].ChannelName +nameappend;
-                valueunit = $("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text();
+                valueSuffix = $("<div/>").html(cuxchart.dpInfos[dp].ValueUnit).text();
 
             } else {
                 name = cuxchart.cuxdConfig.REVALIASES[dp];
-                valueunit = "";
+                valueSuffix = "";
                 return false;
             }
 
@@ -610,7 +610,7 @@ var cuxchart;
             };
             var step = undefined;
             var unit = "";
-            var valuedecimals = 3;
+            var valueDecimals = 3;
             var factor = 1;
             var yAxis = 0;
             var grouping = undefined;
@@ -649,7 +649,7 @@ var cuxchart;
                             ]]
 
                         }
-                    valuedecimals = 3;
+                    valueDecimals = 3;
                     break;
 
                 case "TEMPERATURE":
@@ -661,15 +661,15 @@ var cuxchart;
                 case "HUM_MIN_24H":
                 case "TEMP_MAX_24H":
                 case "TEMP_MIN_24H":
-                    valuedecimals = 1;
+                    valueDecimals = 1;
                     type = "spline";
                     break;
                 case "MEAN5MINUTES":
-                    valuedecimals = 3;
+                    valueDecimals = 3;
                     type = "spline";
                     break;
                 case "BRIGHTNESS":
-                    valuedecimals = 0;
+                    valueDecimals = 0;
                     type = "spline";
                     break;
                 case "LEVEL":
@@ -677,7 +677,7 @@ var cuxchart;
                     step = "left";
                     unit = "%";
                     yAxis = 1;
-                    valuedecimals = 2;
+                    valueDecimals = 2;
                     break;
 
                 case "PRESS_SHORT":
@@ -695,14 +695,14 @@ var cuxchart;
                     marker = {
                         enabled: true
                     };
-                    valuedecimals = 1;
+                    valueDecimals = 1;
                     type = "line";
                     step = "left";
                     grouping = { enabled: false };
 
                     break;
                 case "VALVE_STATE":
-                    valuedecimals = 0;
+                    valueDecimals = 0;
                     type = "line";
                     step = "left";
                     grouping = { enabled: false };
@@ -711,7 +711,7 @@ var cuxchart;
 
                     break;
                 default:
-                    valuedecimals = 3;
+                    valueDecimals = 3;
                     type = "line";
                     step = "left";
 
@@ -723,8 +723,8 @@ var cuxchart;
                 type: type,
                 step: step,
                 marker: marker,
-                valueDecimals: valuedecimals,
-                valueSuffix: valueunit,
+                valueDecimals: valueDecimals,
+                valueSuffix: valueSuffix,
                 visible: visible,
                 pointWidth: 16,
                 data: cuxchart.dates[dp],
@@ -764,6 +764,17 @@ var cuxchart;
                     serie.type = "areaspline";
                 }
             }
+
+            // Serienoptionen
+            var tmp = dp.split(".");
+            if (cuxchart.config.defaults[tmp[1]]) {
+                serie = $.extend(true, serie, cuxchart.defaults[tmp[1]]);
+            }
+
+            if (cuxchart.config.series[dp]) {
+                serie = $.extend(true, serie, cuxchart.config.series[dp]);
+            }
+
             cuxchart.chartOptions.series.push(serie);
         },
         init: function () {
