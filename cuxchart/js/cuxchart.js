@@ -691,7 +691,7 @@ var cuxchart;
                     factor = 5;
                     type = "scatter";
                     break;
-                case "SETPOINT":
+                /*case "SETPOINT":
                     marker = {
                         enabled: true
                     };
@@ -700,7 +700,7 @@ var cuxchart;
                     step = "left";
                     grouping = { enabled: false };
 
-                    break;
+                    break;*/
                 case "VALVE_STATE":
                     valueDecimals = 0;
                     type = "line";
@@ -767,8 +767,8 @@ var cuxchart;
 
             // Serienoptionen
             var tmp = dp.split(".");
-            if (cuxchart.config.defaults[tmp[1]]) {
-                serie = $.extend(true, serie, cuxchart.defaults[tmp[1]]);
+            if (cuxchart.config.series[tmp[1]]) {
+                serie = $.extend(true, serie, cuxchart.config.series[tmp[1]]);
             }
 
             if (cuxchart.config.series[dp]) {

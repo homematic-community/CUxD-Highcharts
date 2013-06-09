@@ -29,12 +29,22 @@
 
 
 cuxchart.config = {
-    "defaults": {
-        "TEMPERATURE": {
-
-        }
-    },
     "series": {
+        "TEMPERATURE": {
+            valueDecimals: 1,
+            type: "spline"
+        },
+        "SETPOINT": {
+            marker: {
+                enabled: true
+            },
+            valueDecimals: 1,
+            type: "line",
+            step: "left",
+            grouping: {
+                enabled: false
+            }
+        },
         "CUX0600101:1.MEAN5MINUTES": {
             type: "areaspline"
         }
