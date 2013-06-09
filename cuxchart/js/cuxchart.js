@@ -32,7 +32,7 @@ var cuxchart;
 ;(function ($) {
 
     cuxchart = {
-        version: "1.3.9",
+        version: "1.4beta1",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),

@@ -28,6 +28,8 @@
  */
 
 
+
+
 cuxchart.config = {
     "series": {
         "TEMPERATURE": {
