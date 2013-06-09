@@ -1,10 +1,17 @@
 #!/bin/sh
 
 mkdir -p /mnt
-mount -t yaffs /dev/mtdblock3 /mnt
+
+if ["$1" == ""]; then
+    echo "CCU1"
+	mount -t yaffs /dev/mtdblock3 /mnt
+else
+    echo "CCU2"
+    mount -t ubifs ubi1:user /mnt
+fi
 
 cp -R ./cuxchart /mnt/etc/config/addons/www/
-cp ./cuxd-highcharts /mnt/etc/config/rc.d
+cp ./cuxd-highcharts /mnt/etc/config/rc.d/cuxchart
 chmod +x /mnt/etc/config/rc.d/cuxchart
 
 umount /mnt

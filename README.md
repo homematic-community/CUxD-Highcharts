@@ -78,6 +78,9 @@ Beispiel:
 
 ## Changelog
 
+### 1.3.9
+* an CCU2 angepasstes Update-Script (Danke Uwe!)
+
 ### 1.3.8
 * diverse Fehler behoben
 * Verbesserungen beim Aggregieren
