@@ -76,7 +76,7 @@ var cuxchart;
                 }
             }
 
-            $("#loader_output").append("<span class='ajax-loader'></span> frage Datenpunkt-Infos von CCU ab");
+            $("#loader_output2").prepend("<span class='ajax-loader'></span> frage Datenpunkt-Infos von CCU ab");
             $.ajax({
                 url:    "ajax/dpinfos.cgi",
                 type:   "post",
@@ -384,7 +384,7 @@ var cuxchart;
             //cuxchart.chart = new Highcharts.StockChart();
         },
         loadLog: function (log, callback, cache) {
-            $("#loader_output").append("<span class='ajax-loader'></span> lade "+log+" ");
+            $("#loader_output2").prepend("<span class='ajax-loader'></span> lade "+log+" ");
             $.ajax({
                 url: 'ajax/log.cgi?logfile='+log+(cache?'&cache=true':''),
                 type: 'get',
@@ -499,7 +499,7 @@ var cuxchart;
             return ts;
         },
         loadData: function () {
-            $("#loader_output").append("<span class='ajax-loader'></span> lade cuxd.ini ");
+            $("#loader_output2").prepend("<span class='ajax-loader'></span> lade cuxd.ini ");
             $.ajax({
                 url: 'ajax/ini.cgi',
                 type: 'get',
@@ -535,17 +535,17 @@ var cuxchart;
                     }
                     if (!cuxchart.cuxdConfig.DEVLOGFILE || cuxchart.cuxdConfig.DEVLOGFILE == "") {
                         $(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
-                        $("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVLOGFILE nicht konfiguriert!");
+                        $("#loader_output2").prepend("<br/>\n<b>Fehler: </b>CUxD DEVLOGFILE nicht konfiguriert!");
                         $.error("CUxD DEVLOGFILE nicht konfiguriert");
                     }
                     if (!cuxchart.cuxdConfig.DEVTIMEFORMAT || (cuxchart.cuxdConfig.DEVTIMEFORMAT != "%Y-%m-%dT%X" && cuxchart.cuxdConfig.DEVTIMEFORMAT != "'%Y-%m-%dT%X'" && cuxchart.cuxdConfig.DEVTIMEFORMAT != "\"%Y-%m-%dT%X\"")) {
                         $(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
-                        $("#loader_output").append("<br/>\n<b>Fehler: </b>CUxD DEVTIMEFROMAT muss auf %Y-%m-%dT%X gesetzt werden!");
+                        $("#loader_output2").prepend("<br/>\n<b>Fehler: </b>CUxD DEVTIMEFROMAT muss auf %Y-%m-%dT%X gesetzt werden!");
                         $.error("CUxD DEVTIMEFORMAT nicht %Y-%m-%dT%X");
                     }
                     if (logit < 1) {
                         $(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
-                        $("#loader_output").append("<br/>\n<b>Fehler: </b>keine CUxD LOGIT Zeile gefunden!");
+                        $("#loader_output2").prepend("<br/>\n<b>Fehler: </b>keine CUxD LOGIT Zeile gefunden!");
                         $.error("CUxD LOGIT fehlt");
                     }
 
@@ -559,7 +559,7 @@ var cuxchart;
         },
         ajaxDone: function () {
             $(".ajax-loader").removeClass("ajax-loader").addClass("ajax-check");
-            $("#loader_output").append("<br/>\n");
+            $("#loader_output2").prepend("<br/>\n");
 
         },
         addSeries: function (dp) {
