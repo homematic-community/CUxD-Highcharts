@@ -271,11 +271,11 @@ var cuxchart;
                         year: '%Y'
                     }
                 },
-                yAxis: {
+                yAxis: [{
                     title: {
                         text: ''
                     }
-                },
+                }],
                 navigator: navigator,
                 tooltip: {
                     shared: false,
@@ -284,7 +284,7 @@ var cuxchart;
 
                     formatter: function() {
                         var date;
-                        console.log(this);
+                        //console.log(this);
                         if (this.series.hasGroupedData) {
                             date = "<i>Aggregiert: ";
                             if (this.series.pointRange == 0) {
@@ -336,6 +336,7 @@ var cuxchart;
                 },
                 series: []
             };
+
             if (cuxchart.queryParams["scrollbar"] == "false") {
                 cuxchart.chartOptions.scrollbar = {
                     enabled : false
@@ -474,6 +475,10 @@ var cuxchart;
                         }
                         cuxchart.addSeries(serie);
                     }
+
+
+
+                    // Set empty Navigator (flatline)
                     cuxchart.chartOptions.navigator.series.data = [[cuxchart.parseDate(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)),0],[cuxchart.parseDate(cuxchart.last),0]];
 
                     //setTimeout(function () {
@@ -701,6 +706,8 @@ var cuxchart;
                     type = "line";
                     step = "left";
                     grouping = { enabled: false };
+                    unit = "%";
+                    yAxis = 1;
 
                     break;
                 default:
@@ -744,6 +751,18 @@ var cuxchart;
             };
             if (grouping) {
                 serie.dataGrouping = grouping;
+            } else {
+                //
+            }
+
+            if (cuxchart.queryParams["grouping"] == "false") {
+                console.log("disable grouping");
+                serie.dataGrouping = {enabled:false};
+            }
+            if (cuxchart.queryParams["area"] == "true") {
+                if (serie.type == "spline") {
+                    serie.type = "areaspline";
+                }
             }
             cuxchart.chartOptions.series.push(serie);
         },
