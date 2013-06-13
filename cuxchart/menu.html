@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>CUxD-Highcharts Menü</title>
-    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/overcast/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" href="css/menu.css"/>
     <link rel="stylesheet" type="text/css" href="css/jquery.multiselect.css"/>
     <link rel="stylesheet" type="text/css" href="css/jquery.multiselect.filter.css"/>
@@ -17,7 +17,7 @@
         $(document).ready(function () {
             $(".cuxchart-version").html(cuxchart.version);
 
-            $("#credits").html("<a target='_blank' href='https://github.com/hobbyquaker/CUxD-Highcharts'>CUxD-Highcharts</a> " + cuxchart.version + " copyright (c) 2013 <a target='_blank' href='http://hobbyquaker.github.io/'>hobbyquaker</a>  - Lizenz: <a target='_blank' href='http://creativecommons.org/licenses/by-nc/3.0/de/'>CC BY-NC 3.0 DE</a>  - Verwendet <a target='_blank' href='http://www.highcharts.com'>Highstock</a> - kommerzielle Nutzung untersagt.").
+            $("#credits").html("<a target='_blank' href='https://github.com/hobbyquaker/CUxD-Highcharts'>CUxD-Highcharts</a> " + cuxchart.version + " copyright (c) 2013 <a target='_blank' href='http://hobbyquaker.github.io/'>hobbyquaker</a>  - Lizenz: <a target='_blank' href='http://creativecommons.org/licenses/by-nc/3.0/de/'>CC BY-NC 3.0 DE</a>  - Verwendet <a target='_blank' href='http://www.highcharts.com'>Highstock</a> - kommerzielle Nutzung untersagt! - <a target='_blank' href='http://homematic-forum.de/forum/viewtopic.php?f=37&t=12939&start=99999'>Support</a>").
                     attr("href", "https://github.com/hobbyquaker/CUxD-Highcharts");
 
 
@@ -63,7 +63,16 @@
 
             }
 
-            $("#dp").multiselect({minWidth: 450}).multiselectfilter();
+            $("#dp").multiselect({
+                minWidth: 462,
+                height: 260,
+                noneSelectedText: "Datenreihen: alle",
+                selectedText: "Datenreihen: # ausgewählt",
+                checkAllText: "alle auswählen",
+                uncheckAllText: "Auswahl aufheben"
+            }).multiselectfilter({
+                        placeholder: ""
+                    });
 
 
 
@@ -96,11 +105,8 @@
 
 
     <div class="head">
-        <a class="link" target="_blank" href="#">Charts anzeigen</a>
-        <h4>Datenreihen</h4>
         <select id="dp" multiple="multiple" name="dp"></select>
-
-        <table id="series"></table>
+        <a style="margin-left:90px;" class="link" target="_blank" href="#">Charts anzeigen</a>
     </div>
 
     <div class="block">

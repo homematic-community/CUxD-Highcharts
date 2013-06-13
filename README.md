@@ -36,6 +36,10 @@ Beispiel:
 
 * DATAPOINTS - Eine Komma-getrennte Liste von Datenpunkten die geladen und angezeigt werden sollen
 
+#### grouping
+
+* false - deaktiviert das Aggregieren von Daten grundsätzlich
+
 #### range
 
 * HOURS - Setzt Zoomstufe auf HOURS Stunden
@@ -67,16 +71,23 @@ Beispiel:
 
 ## ToDo / Roadmap
 
-
-* Config-File oder Config-Dialog um Datenreihen-Optionen individuell anzupassen
+* Mehrere Y-Achsen, über config.js konfigurierbar
+* Mehrere Charts in einer Ansicht (übereinander dargestellt)
+* Datenreihe für Navigator als neuer URL-Parameter
 * Tooltip erweitern, Tooltip in Legende hinzufügen: Anzahl Werte, Zeitpunkt erster und letzter Wert, Anzahl Log-Einträge, Mittel, Median, Min, Max, ...?
-* Kleines Config-Tool um Datenreihen und Parameter komfortabel auszuwählen um eine fertige URL zu erhalten
 * Unter Titel Log-Einträge pro Minute, Zeitpunkt ältester Eintrag und Zeitpunkt letzter Eintrag anzeigen
+* menu.html Erweitern: Möglichkeit config.js hier komfortabel mit der Maus zu bearbeiten
 * exporting (Highcharts Modul bietet PDF, JPG, SVG usw an)
 * Marker setzen und speichern
 
-
 ## Changelog
+
+### 1.4.0
+* neue Menüseite zur komfortablen Auswahl von Datenpunkten und weiteren Optionen: /addons/cuxchart/menu.html
+* Config-Datei: js/config.js - hier können Highcharts-Optionen nach Datenpunkt-Typ oder explizit für bestimmte Datenpunkte konfiguriert werden.
+* Fehler behoben: die Parameter range, period und navigator verhalten sich nun wie beabsichtigt
+* Fehler angefangen: fehlerhafte Angaben beim Parameter dp
+* diverse kleine Verbesserungen, diverse Fehler behoben
 
 ### 1.3.9
 * an CCU2 angepasstes Update-Script (Danke Uwe!)

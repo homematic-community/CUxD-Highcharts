@@ -32,7 +32,7 @@ var cuxchart;
 ;(function ($) {
 
     cuxchart = {
-        version: "1.4beta3",
+        version: "1.4.0",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),
@@ -92,6 +92,8 @@ var cuxchart;
                 data:   dps.join(";"),
                 success: function (data) {
                     //console.log(data);
+                    cuxchart.ajaxDone();
+                    $("#loader_output2").prepend("<span class='ajax-loader'></span> verarbeite Daten");
                     for (var i = 0; i < dps.length; i++) {
                         // Kamen Infos zurück?
                         if (data[dps[i]]) {
@@ -138,11 +140,11 @@ var cuxchart;
                             }
                         )
                     );
-                    cuxchart.ajaxDone();
                     if (cuxchart.queryParams["menu"]) {
                         location.href = "./menu.html";
                         $.error("redirect!");
                     }
+
                     callback();
                 },
                 error: function () {
@@ -193,10 +195,17 @@ var cuxchart;
                 cuxchart.start = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second;
             }
             cuxchart.cache = storage.get(cuxchart.storageKey);
+            if (!cuxchart.cache) {
+                cuxchart.cache = {};
+            }
 
             if (cuxchart.queryParams["dp"]) {
                 var tmpArr = cuxchart.queryParams["dp"].split(",");
-                cuxchart.cache.visible = tmpArr;
+                if (tmpArr.length < 5) {
+                    cuxchart.cache.visible = tmpArr;
+                } else {
+                    cuxchart.cache.visible = tmpArr;
+                }
             }
 
             Highcharts.setOptions({
@@ -413,7 +422,7 @@ var cuxchart;
                     }, {
                         type : 'day',
                         count : 1,
-                        text : '1D'
+                        text : '1T'
                     }, {
                         type : 'week',
                         count : 1,
@@ -514,6 +523,8 @@ var cuxchart;
                 $("#cuxchart_skip").hide();
 
                 cuxchart.getDpInfos(function () {
+                    cuxchart.ajaxDone();
+                    $("#loader_output2").prepend("<span class='ajax-loader'></span> initialisiere Highcharts");
                     var tmpArr = [];
                     for (var dp in cuxchart.dates) {
                         var tmp = dp.split(".");
@@ -536,12 +547,13 @@ var cuxchart;
                     // Set empty Navigator (flatline)
                     cuxchart.chartOptions.navigator.series.data = [[cuxchart.parseDate(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)),0],[cuxchart.parseDate(cuxchart.last),0]];
 
-                    //setTimeout(function () {
-                    $("#loader").hide();
-                    $("#loader_small").hide();
 
-                    cuxchart.renderChart();
-                    //}, 1);
+                    setTimeout(function () {
+                        //cuxchart.ajaxDone();
+                        $("#loader").hide();
+                        $("#loader_small").hide();
+                        cuxchart.renderChart();
+                    }, 1);
 
                 });
 
@@ -620,12 +632,21 @@ var cuxchart;
         addSeries: function (dp) {
 
             var visible;
-            if (cuxchart.cache && cuxchart.cache.visible.length > 0) {
+            if (cuxchart.cache && cuxchart.cache.visible && cuxchart.cache.visible.length > 0) {
                 if ($.inArray(dp, cuxchart.cache.visible) == -1) {
                     visible = false;
                 } else {
-                    visible = true;
+                    if (cuxchart.cache.visible.length < 5) {
+                        visible = true;
+                    } else {
+                        if (cuxchart.chartOptions.series.length > 0) {
+                            visible = false;
+                        } else {
+                            visible = true;
+                        }
+                    }
                 }
+
             } else {
                 if (cuxchart.chartOptions.series.length > 0) {
                     visible = false;
@@ -797,7 +818,9 @@ var cuxchart;
                                     tmpArr.push(cuxchart.chart.series[i].userOptions.cuxchart);
                                 }
                             }
-                            storage.set(cuxchart.storageKey, {visible: tmpArr});
+                            if (!cuxchart.queryParams["dp"] || cuxchart.queryParams["dp"] == "") {
+                                storage.set(cuxchart.storageKey, {visible: tmpArr});
+                            }
                             cuxchart.saveSettings();
                         }, 1000);
                     }

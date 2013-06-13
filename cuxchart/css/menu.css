@@ -8,7 +8,7 @@ body {
     height: 100%;
     font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
-    min-width: 608px;
+    min-width: 720px;
 }
 
 
@@ -37,5 +37,11 @@ body {
 #credits {
     clear: both;
     font-size: 9px;
-    line-height: 40px;
+    margin-left: 10px;
+
+}
+
+button.ui-multiselect {
+    padding: 5px 5px 5px 5px;
+    vertical-align: -1px;
 }
