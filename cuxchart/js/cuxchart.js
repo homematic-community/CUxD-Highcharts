@@ -32,7 +32,7 @@ var cuxchart;
 ;(function ($) {
 
     cuxchart = {
-        version: "1.4beta2",
+        version: "1.4beta3",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),
@@ -77,6 +77,14 @@ var cuxchart;
                 }
             }
 
+            if (dps.length < 1) {
+                $(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
+                $("#loader_output2").prepend("<b>Fehler: </b>ausgewählte Datenpunkte nicht im Log gefunden!<br/>");
+                $.error("keine Datenpunkte im Log gefunden");
+
+            }
+
+
             $("#loader_output2").prepend("<span class='ajax-loader'></span> frage Datenpunkt-Infos von CCU ab");
             $.ajax({
                 url:    "ajax/dpinfos.cgi",
@@ -115,6 +123,8 @@ var cuxchart;
 
 
                     }
+
+
                     //storage.set(cuxchart.storageMenu
                     storage.set(cuxchart.storageMenu,
                         $.extend(
@@ -253,7 +263,10 @@ var cuxchart;
                     series: {
                         type: "line"
                     }
+
                 };
+
+
             } else {
 
                 navigator = {
@@ -361,12 +374,36 @@ var cuxchart;
                 };
             }
             if (cuxchart.queryParams["range"]) {
+                cuxchart.chartOptions.xAxis.range = parseFloat(cuxchart.queryParams["range"]) * 3600 * 1000;
+            }
+            if (cuxchart.queryParams["navigator"]) {
                 cuxchart.chartOptions.rangeSelector = {
                     enabled: false
 
                 };
-                cuxchart.chartOptions.xAxis.range = parseFloat(cuxchart.queryParams["range"]) * 3600 * 1000;
             } else {
+                var selectedRange;
+                if (cuxchart.queryParams["range"]) {
+                    var range = parseInt(cuxchart.queryParams["range"],10);
+                    switch (range) {
+                        case 1:
+                            selectedRange = 0;
+                            break;
+                        case 24:
+                            selectedRange = 1;
+                            break;
+                        case 168:
+                            selectedRange = 2;
+                            break;
+                        case 720:
+                        case 744:
+                            selectedRange = 3;
+                            break;
+                        case 8760:
+                            selectedRange = 4;
+                            break;
+                    }
+                }
                 cuxchart.chartOptions.rangeSelector = {
                     inputDateFormat: "%e. %b %Y",
                     buttons : [{
@@ -390,7 +427,7 @@ var cuxchart;
                         count : 1,
                         text : '1J'
                     }],
-                    selected : 1,
+                    selected : selectedRange,
                     inputEnabled : true
                 };
             }
@@ -820,8 +857,6 @@ var cuxchart;
         return vars;
     }
 
-    $(document).ready(function () {
-        cuxchart.init();
-    });
+
 
 })(jQuery);
