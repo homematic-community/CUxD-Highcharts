@@ -32,11 +32,12 @@ var cuxchart;
 ;(function ($) {
 
     cuxchart = {
-        version: "1.4beta1",
+        version: "1.4beta2",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),
         storageKey: "cuxchart",
+        storageMenu: "cuxchart_menu",
         cache: {
             visible: []
         },
@@ -114,7 +115,24 @@ var cuxchart;
 
 
                     }
+                    //storage.set(cuxchart.storageMenu
+                    storage.set(cuxchart.storageMenu,
+                        $.extend(
+                            true,
+                            storage.get(cuxchart.storageMenu),
+                            {
+                                dps: dps,
+                                dpInfos: cuxchart.dpInfos,
+                                rev: cuxchart.revDpInfos,
+                                alias: cuxchart.cuxdConfig.REVALIASES
+                            }
+                        )
+                    );
                     cuxchart.ajaxDone();
+                    if (cuxchart.queryParams["menu"]) {
+                        location.href = "./menu.html";
+                        $.error("redirect!");
+                    }
                     callback();
                 },
                 error: function () {

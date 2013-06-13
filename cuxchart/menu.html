@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>CUxD-Highcharts Menü</title>
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/menu.css"/>
+    <link rel="stylesheet" type="text/css" href="css/jquery.multiselect.css"/>
+    <link rel="stylesheet" type="text/css" href="css/jquery.multiselect.filter.css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="js/jquery.multiselect.min.js"></script>
+    <script src="js/jquery.multiselect.filter.js"></script>
+    <script src="js/loStorage.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+           var link = window.location.href.replace(/menu\.html/, '?');
+
+            $("select.simple").multiselect({
+                multiple: false,
+                header: false,
+                //noneSelectedText: "Select an Option",
+                selectedList: 1
+            });
+
+           $("select").change(function () {
+               var val = [];
+               $(this).find("option:selected").each(function() {
+                   val.push($(this).val());
+               });
+               updateLink($(this).attr("id"), val.join(","));
+           });
+
+            $("#link").attr("href", link );
+            $("#link").html( link );
+
+
+            var cache = storage.get("cuxchart_menu");
+            if (!cache) {
+                location.href = link.replace(/\?.*/, '') + "?menu=true";
+                return false;
+            }
+
+            var dpSort = [];
+            for (var dp in cache.rev) {
+                dpSort.push(dp);
+            }
+            dpSort.sort();
+            for (var i = 0; i < dpSort.length; i++) {
+                $("#dp").append("<option value='"+cache.rev[dpSort[i]]+"'>"+dpSort[i]+"</option>");
+
+            }
+
+            $("#dp").multiselect({minWidth: 450}).multiselectfilter();
+
+
+
+            function updateLink(id, val) {
+                    link = link.replace((new RegExp("&?"+id+"=?[^&]*")), "");
+
+                    if (val && val != "") {
+                        if (link.slice(-1) != "?" && link.slice(-1) != "&") {
+                            link = link + "&";
+                        }
+                        link = link + id + "=" + val;
+                    }
+
+                    $("#link").attr("href", link );
+                    $("#link").html( link );
+
+                };
+
+        });
+    </script>
+
+</head>
+<body>
+<div id="title">
+    <span style="font-size:16px; font-style: italic;">CUxD-Highcharts  <span class="cuxchart-version"></span></span><br/>
+</div>
+<div id="">
+
+    <br/><br/>
+
+    <div class="head">
+        <h3>Link</h3>
+        <a id="link" href="?" target="_blank"/></a>
+    </div>
+
+    <div class="head">
+        <h3>Datenreihen</h3>
+        <select id="dp" multiple="multiple" name="dp"></select>
+
+        <table id="series"></table>
+    </div>
+
+    <div class="block">
+        <h3>von CCU laden</h3>
+        <select class="simple" multiple="multiple" id="range" name="range">
+            <option value="1">1 Stunde</option>
+            <option value="2">2 Stunden</option>
+            <option value="6">6 Stunden</option>
+            <option value="12">12 Stunden</option>
+            <option value="24">1 Tag</option>
+            <option value="72">3 Tage</option>
+            <option value="120">5 Tage</option>
+            <option value="168">1 Woche</option>
+            <option value="336">2 Wochen</option>
+            <option value="720">1 Monat</option>
+            <option value="2160">3 Monate</option>
+            <option value="4320">6 Monate</option>
+            <option value="8760">1 Jahr</option>
+            <option value="" selected="selected">unbegrenzt</option>
+        </select>
+        <h3>Zoomstufe</h3>
+        <select class="simple" multiple="multiple" id="period" name="range">
+            <option value="1">1 Stunde</option>
+            <option value="2">2 Stunden</option>
+            <option value="6">6 Stunden</option>
+            <option value="12">12 Stunden</option>
+            <option value="24">1 Tag</option>
+            <option value="72">3 Tage</option>
+            <option value="120">5 Tage</option>
+            <option value="168">1 Woche</option>
+            <option value="336">2 Wochen</option>
+            <option value="720">1 Monat</option>
+            <option value="2160">3 Monate</option>
+            <option value="4320">6 Monate</option>
+            <option value="8760">1 Jahr</option>
+            <option value="" selected="selected">automatisch</option>
+        </select>
+
+        <h3>Aggregation</h3>
+        <select class="simple" multiple="multiple" id="grouping">
+            <option value="" selected="selected">dynamisch</option>
+            <option value="false">deaktiviert</option>
+        </select>
+    </div>
+    <div class="block">
+        <h3>Theme</h3>
+        <select class="simple" multiple="multiple" id="theme">
+            <option value="" selected="selected">-</option>
+            <option value="grid">grid</option>
+            <option value="dark-green">dark-green</option>
+            <option value="skies">skies</option>
+            <option value="dark-blue">dark-blue</option>
+            <option value="gray">gray</option>
+        </select>
+
+        <h3>Lade-Anzeige</h3>
+        <select class="simple" multiple="multiple" id="loader">
+            <option value="" selected="selected">anzeigen</option>
+            <option value="false">nicht anzeigen</option>
+        </select>
+
+        <h3>Legende</h3>
+        <select class="simple" multiple="multiple" id="legend">
+            <option value="" selected="selected">Links</option>
+            <option value="inline">im Chart</option>
+            <option value="false">nicht anzeigen</option>
+        </select>
+
+    </div>
+    <div class="block">
+
+
+        <h3>Navigator</h3>
+        <select class="simple" multiple="multiple" id="navigator">
+            <option value="" selected="selected">anzeigen</option>
+            <option value="false">nicht anzeigen</option>
+        </select>
+
+        <h3>Scrollbar</h3>
+        <select class="simple" multiple="multiple" id="scrollbar">
+            <option value="" selected="selected">anzeigen</option>
+            <option value="false">nicht anzeigen</option>
+        </select>
+
+        <h3>Zoomen</h3>
+        <select class="simple" multiple="multiple" id="zoom">
+            <option value="" selected="selected">aktiviert</option>
+            <option value="false">deaktiviert</option>
+        </select>
+
+
+
+    </div>
+
+</div>
+
+</body>
+</html>
