@@ -300,8 +300,8 @@ var cuxchart;
                 },
                 exporting: {
                     enabled: true,
-                    sourceWidth: 1280,
-                    sourceHeight: 800
+                    sourceWidth: 1920,
+                    sourceHeight: 1080
 
                 },
                 title: {
