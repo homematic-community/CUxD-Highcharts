@@ -32,7 +32,7 @@ var cuxchart;
 ;(function ($) {
 
     cuxchart = {
-        version: "1.4.1",
+        version: "1.4.2",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),
@@ -260,7 +260,7 @@ var cuxchart;
                 };
                 credits = {
                     enabled: true,
-                    text: "CUxD-Highcharts " + cuxchart.version + " copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker - Lizenz: CC BY-NC 3.0 DE http://creativecommons.org/licenses/by-nc/3.0/de/ - Verwendet Highstock http://www.highcharts.com und $ http://www.jquery.com",
+                    text: "CUxD-Highcharts " + cuxchart.version + " copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker - Lizenz: CC BY-NC 3.0 DE http://creativecommons.org/licenses/by-nc/3.0/de/ - Verwendet Highstock http://www.highcharts.com - Kommerzielle Nutzung untersagt",
                     href: "https://github.com/hobbyquaker/CUxD-Highcharts",
                     position: { align: "left", x: 12 }
                 };
@@ -293,6 +293,12 @@ var cuxchart;
                     events: {
 
                     }
+                },
+                exporting: {
+                    enabled: true,
+                    sourceWidth: 1280,
+                    sourceHeight: 800
+
                 },
                 title: {
                     text: null
@@ -376,6 +382,22 @@ var cuxchart;
                 },
                 series: []
             };
+
+            if (cuxchart.queryParams["percentaxis"] == "true") {
+                cuxchart.chartOptions.yAxis.push({
+                    title: {
+                        text: ""
+                    },
+                    labels: {
+                        formatter: function() {
+                            return this.value +'%';
+                        }
+                    },
+                    opposite: true,
+                        min: 0,
+                    max: 100
+                });
+            }
 
             if (cuxchart.queryParams["scrollbar"] == "false") {
                 cuxchart.chartOptions.scrollbar = {
@@ -537,7 +559,7 @@ var cuxchart;
                         if (cuxchart.revDpInfos[tmpArr[i]]) {
                             serie = cuxchart.revDpInfos[tmpArr[i]];
                         } else {
-                            serie = tmpArr[i]
+                            serie = tmpArr[i];
                         }
                         cuxchart.addSeries(serie);
                     }
@@ -793,11 +815,17 @@ var cuxchart;
 
             }
 
+            if (cuxchart.queryParams["percentaxis"] != "true") {
+                yAxis = 0;
+            }
+
+
             var serie = {
                 cuxchart: dp,
                 name: name,
                 type: type,
                 step: step,
+                yAxis: yAxis,
                 marker: marker,
                 valueDecimals: valueDecimals,
                 valueSuffix: valueSuffix,

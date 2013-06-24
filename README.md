@@ -69,6 +69,10 @@ Beispiel:
 
 * false - Kein Zoomen möglich
 
+#### percentaxis
+
+* true - zusätzliche Achse Rechts für Prozent-Werte
+
 ## ToDo / Roadmap
 
 * Mehrere Y-Achsen, über config.js konfigurierbar
@@ -81,6 +85,11 @@ Beispiel:
 * Marker setzen und speichern
 
 ## Changelog
+
+### 1.4.2
+* reset.html hinzugefügt - Aufruf löscht den Cache für die Menü-Seite
+* exporting Modul hinzugefügt - Charts können nun als .jpg, .png, .svg oder .pdf exportiert werden
+* neuer Parameter "percentaxis" blendet zusätzliche Y-Achse rechts für Prozent-Werte ein
 
 ### 1.4.1
 * Fehler behoben der die Menüseite "kaputt" gemacht hat bei Installation als Zusatzsoftware
