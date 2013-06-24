@@ -79,22 +79,18 @@ Beispiel:
 
 ## ToDo / Roadmap
 
-* Mehrere Y-Achsen, über config.js konfigurierbar
-* Mehrere Charts in einer Ansicht (übereinander dargestellt)
-* Datenreihe für Navigator als neuer URL-Parameter
 * Tooltip erweitern, Tooltip in Legende hinzufügen: Anzahl Werte, Zeitpunkt erster und letzter Wert, Anzahl Log-Einträge, Mittel, Median, Min, Max, ...?
 * Unter Titel Log-Einträge pro Minute, Zeitpunkt ältester Eintrag und Zeitpunkt letzter Eintrag anzeigen
 * menu.html Erweitern: Möglichkeit config.js hier komfortabel mit der Maus zu bearbeiten
-* exporting (Highcharts Modul bietet PDF, JPG, SVG usw an)
 * Marker setzen und speichern
 
 ## Changelog
 
 ### 1.4.2
-* reset.html hinzugefügt - Aufruf löscht den Cache für die Menü-Seite
 * exporting Modul hinzugefügt - Charts können nun als .jpg, .png, .svg oder .pdf exportiert werden
 * neuer Parameter "percentaxis" blendet zusätzliche Y-Achse rechts für Prozent-Werte ein
 * neuer Parameter "dpnav" - hiermit kann ein Datenpunkt für den "Navigator" ausgewählt werden
+* reset.html hinzugefügt - Aufruf löscht den Cache für die Menü-Seite
 
 ### 1.4.1
 * Fehler behoben der die Menüseite "kaputt" gemacht hat bei Installation als Zusatzsoftware
