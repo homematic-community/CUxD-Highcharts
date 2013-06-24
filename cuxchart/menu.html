@@ -15,6 +15,9 @@
     <script src="js/cuxchart.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+
+
+
             $(".cuxchart-version").html(cuxchart.version);
 
             $("#credits").html("<a target='_blank' href='https://github.com/hobbyquaker/CUxD-Highcharts'>CUxD-Highcharts</a> " + cuxchart.version + " copyright (c) 2013 <a target='_blank' href='http://hobbyquaker.github.io/'>hobbyquaker</a>  - Lizenz: <a target='_blank' href='http://creativecommons.org/licenses/by-nc/3.0/de/'>CC BY-NC 3.0 DE</a>  - Verwendet <a target='_blank' href='http://www.highcharts.com'>Highstock</a> - kommerzielle Nutzung untersagt! - <a target='_blank' href='http://homematic-forum.de/forum/viewtopic.php?f=37&t=12939&start=99999'>Support</a>").
@@ -60,7 +63,7 @@
             dpSort.sort();
             for (var i = 0; i < dpSort.length; i++) {
                 $("#dp").append("<option value='"+cache.rev[dpSort[i]]+"'>"+dpSort[i]+"</option>");
-
+                $("#dpnav").append("<option value='"+cache.rev[dpSort[i]]+"'>"+dpSort[i]+"</option>");
             }
 
             $("#dp").multiselect({
@@ -68,12 +71,25 @@
                 height: 260,
                 noneSelectedText: "Datenreihen: alle",
                 selectedText: "Datenreihen: # ausgewählt",
+
                 checkAllText: "alle auswählen",
                 uncheckAllText: "Auswahl aufheben"
             }).multiselectfilter({
                         placeholder: ""
                     });
 
+            $("#dpnav").multiselect({
+                minWidth: 462,
+                height: 260,
+                noneSelectedText: "Navigator: -",
+                selectedText: function(numChecked, numTotal, checkedItems){
+                    console.log(checkedItems);
+                    return "Navigator: "+checkedItems[0].title;
+                },
+                multiple: false
+            }).multiselectfilter({
+                        placeholder: ""
+                    });
 
 
             function updateLink(id, val) {
@@ -107,6 +123,17 @@
     <div class="head">
         <select id="dp" multiple="multiple" name="dp"></select>
         <a style="margin-left:90px;" class="link" target="_blank" href="#">Charts anzeigen</a>
+        <h4>Navigator</h4>
+        <select id="dpnav" multiple="multiple" name="dp"></select>
+        <span style="display:inline-block; width: 4px;"></span>
+        <select class="simple" multiple="multiple" id="navigator">
+            <option value="" selected="selected">anzeigen</option>
+            <option value="false">nicht anzeigen</option>
+        </select>
+
+
+
+
     </div>
 
     <div class="block">
@@ -179,10 +206,10 @@
     <div class="block">
 
 
-        <h4>Navigator</h4>
-        <select class="simple" multiple="multiple" id="navigator">
-            <option value="" selected="selected">anzeigen</option>
-            <option value="false">nicht anzeigen</option>
+        <h4>Y-Achse</h4>
+        <select class="simple" multiple="multiple" id="percentaxis">
+            <option value="" selected="selected">Links</option>
+            <option value="true">Links und Rechts (%)</option>
         </select>
 
         <h4>Scrollbar</h4>

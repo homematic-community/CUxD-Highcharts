@@ -286,6 +286,10 @@ var cuxchart;
                 };
             }
 
+            if (cuxchart.queryParams["dpnav"]) {
+                cuxchart.addSeries(cuxchart.queryParams["dpnav"], true);
+            }
+
             cuxchart.chartOptions = {
                 chart: {
                     renderTo: 'chart',
@@ -565,9 +569,11 @@ var cuxchart;
                     }
 
 
-
-                    // Set empty Navigator (flatline)
-                    cuxchart.chartOptions.navigator.series.data = [[cuxchart.parseDate(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)),0],[cuxchart.parseDate(cuxchart.last),0]];
+                    if (!cuxchart.queryParams["dpnav"]) {
+                        cuxchart.chartOptions.navigator.series.data = [[cuxchart.parseDate(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)),0],[cuxchart.parseDate(cuxchart.last),0]];
+                    } else {
+                        cuxchart.addSeries(cuxchart.queryParams["dpnav"], true)
+                    }
 
 
                     setTimeout(function () {
@@ -651,7 +657,7 @@ var cuxchart;
             $("#loader_output2").prepend("<br/>\n");
 
         },
-        addSeries: function (dp) {
+        addSeries: function (dp, dpnav) {
 
             var visible;
             if (cuxchart.cache && cuxchart.cache.visible && cuxchart.cache.visible.length > 0) {
@@ -881,7 +887,23 @@ var cuxchart;
                 serie = $.extend(true, serie, cuxchart.config.series[dp]);
             }
 
-            cuxchart.chartOptions.series.push(serie);
+            if (!dpnav) {
+                cuxchart.chartOptions.series.push(serie);
+            } else {
+                switch (serie.type) {
+                    case "line":
+                        serie.type = "arealine";
+                        break;
+                    case "spline":
+                        serie.type = "areaspline";
+                        break;
+
+                }
+                console.log(serie);
+                cuxchart.chartOptions.navigator.series = serie;
+            }
+
+
         },
         init: function () {
             $(".cuxchart-version").html(cuxchart.version);

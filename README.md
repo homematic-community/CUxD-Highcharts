@@ -73,6 +73,10 @@ Beispiel:
 
 * true - zusätzliche Achse Rechts für Prozent-Werte
 
+#### area
+
+* true - Chart-Typen arealine statt line und areaspline statt spline
+
 ## ToDo / Roadmap
 
 * Mehrere Y-Achsen, über config.js konfigurierbar
@@ -90,6 +94,7 @@ Beispiel:
 * reset.html hinzugefügt - Aufruf löscht den Cache für die Menü-Seite
 * exporting Modul hinzugefügt - Charts können nun als .jpg, .png, .svg oder .pdf exportiert werden
 * neuer Parameter "percentaxis" blendet zusätzliche Y-Achse rechts für Prozent-Werte ein
+* neuer Parameter "dpnav" - hiermit kann ein Datenpunkt für den "Navigator" ausgewählt werden
 
 ### 1.4.1
 * Fehler behoben der die Menüseite "kaputt" gemacht hat bei Installation als Zusatzsoftware
