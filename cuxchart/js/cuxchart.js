@@ -32,7 +32,7 @@ var cuxchart;
 ;(function ($) {
 
     cuxchart = {
-        version: "1.4.2",
+        version: "1.4.3",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),
@@ -286,8 +286,8 @@ var cuxchart;
                 };
             }
 
-            if (cuxchart.queryParams["dpnav"]) {
-                cuxchart.addSeries(cuxchart.queryParams["dpnav"], true);
+            if (cuxchart.queryParams["navserie"]) {
+                cuxchart.addSeries(cuxchart.queryParams["navserie"], true);
             }
 
             cuxchart.chartOptions = {
@@ -397,9 +397,7 @@ var cuxchart;
                             return this.value +'%';
                         }
                     },
-                    opposite: true,
-                        min: 0,
-                    max: 100
+                    opposite: true
                 });
             }
 
@@ -495,11 +493,16 @@ var cuxchart;
 
                     //console.log("first:" + cuxchart.first);
                     var tmpArr = {};
+
                     for (var i = 0; i < lines.length; i++) {
                         triple = lines[i].split(" ");
                         if (cuxchart.queryParams["dp"]) {
                             if (cuxchart.cache.visible.indexOf(triple[1]) == -1) {
-                                continue;
+                                if (cuxchart.queryParams["navserie"] && cuxchart.queryParams["navserie"] != triple[1]) {
+                                    continue;
+                                } else if (!cuxchart.queryParams["navserie"]) {
+                                    continue;
+                                }
                             }
                         }
                         if (triple.length === 3) {
@@ -569,10 +572,10 @@ var cuxchart;
                     }
 
 
-                    if (!cuxchart.queryParams["dpnav"]) {
+                    if (!cuxchart.queryParams["navserie"]) {
                         cuxchart.chartOptions.navigator.series.data = [[cuxchart.parseDate(((cuxchart.start > cuxchart.first) ? cuxchart.start : cuxchart.first)),0],[cuxchart.parseDate(cuxchart.last),0]];
                     } else {
-                        cuxchart.addSeries(cuxchart.queryParams["dpnav"], true)
+                        cuxchart.addSeries(cuxchart.queryParams["navserie"], true)
                     }
 
 
@@ -657,7 +660,7 @@ var cuxchart;
             $("#loader_output2").prepend("<br/>\n");
 
         },
-        addSeries: function (dp, dpnav) {
+        addSeries: function (dp, navserie) {
 
             var visible;
             if (cuxchart.cache && cuxchart.cache.visible && cuxchart.cache.visible.length > 0) {
@@ -756,13 +759,14 @@ var cuxchart;
                     valueDecimals = 3;
                     break;
 
-                case "TEMPERATURE":
                 case "HUMIDITY":
                 case "HUMIDITYF":
-                case "DEW_POINT":
                 case "ABS_HUMIDITY":
                 case "HUM_MAX_24H":
                 case "HUM_MIN_24H":
+                    yAxis = 1;
+                case "TEMPERATURE":
+                case "DEW_POINT":
                 case "TEMP_MAX_24H":
                 case "TEMP_MIN_24H":
                     valueDecimals = 1;
@@ -887,7 +891,7 @@ var cuxchart;
                 serie = $.extend(true, serie, cuxchart.config.series[dp]);
             }
 
-            if (!dpnav) {
+            if (!navserie) {
                 cuxchart.chartOptions.series.push(serie);
             } else {
                 switch (serie.type) {

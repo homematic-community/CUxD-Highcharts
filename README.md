@@ -36,6 +36,10 @@ Beispiel:
 
 * DATAPOINTS - Eine Komma-getrennte Liste von Datenpunkten die geladen und angezeigt werden sollen
 
+#### navserie
+
+* DATAPOINT - Datenpunkt für die Anzeige im "Navigator"
+
 #### grouping
 
 * false - deaktiviert das Aggregieren von Daten grundsätzlich
@@ -86,10 +90,15 @@ Beispiel:
 
 ## Changelog
 
+### 1.4.3
+* Fehler behoben bei Auswahl des Navigator-Datenpunkts
+* Fehler behoben bei Darstellung %-Ordinate
+* Fehler behoben auf Menüseite
+
 ### 1.4.2
 * exporting Modul hinzugefügt - Charts können nun als .jpg, .png, .svg oder .pdf exportiert werden
 * neuer Parameter "percentaxis" blendet zusätzliche Y-Achse rechts für Prozent-Werte ein
-* neuer Parameter "dpnav" - hiermit kann ein Datenpunkt für den "Navigator" ausgewählt werden
+* neuer Parameter "navserie" - hiermit kann ein Datenpunkt für den "Navigator" ausgewählt werden
 * reset.html hinzugefügt - Aufruf löscht den Cache für die Menü-Seite
 
 ### 1.4.1

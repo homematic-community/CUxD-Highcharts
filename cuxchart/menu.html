@@ -63,7 +63,7 @@
             dpSort.sort();
             for (var i = 0; i < dpSort.length; i++) {
                 $("#dp").append("<option value='"+cache.rev[dpSort[i]]+"'>"+dpSort[i]+"</option>");
-                $("#dpnav").append("<option value='"+cache.rev[dpSort[i]]+"'>"+dpSort[i]+"</option>");
+                $("#navserie").append("<option value='"+cache.rev[dpSort[i]]+"'>"+dpSort[i]+"</option>");
             }
 
             $("#dp").multiselect({
@@ -78,7 +78,7 @@
                         placeholder: ""
                     });
 
-            $("#dpnav").multiselect({
+            $("#navserie").multiselect({
                 minWidth: 462,
                 height: 260,
                 noneSelectedText: "Navigator: -",
@@ -93,6 +93,7 @@
 
 
             function updateLink(id, val) {
+                console.log("change "+id+"="+val);
                     link = link.replace((new RegExp("&?"+id+"=?[^&]*")), "");
 
                     if (val && val != "") {
@@ -124,7 +125,7 @@
         <select id="dp" multiple="multiple" name="dp"></select>
         <a style="margin-left:90px;" class="link" target="_blank" href="#">Charts anzeigen</a>
         <h4>Navigator</h4>
-        <select id="dpnav" multiple="multiple" name="dp"></select>
+        <select id="navserie" multiple="multiple" name="navserie"></select>
         <span style="display:inline-block; width: 4px;"></span>
         <select class="simple" multiple="multiple" id="navigator">
             <option value="" selected="selected">anzeigen</option>
