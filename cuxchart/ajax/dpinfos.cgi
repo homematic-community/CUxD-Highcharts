@@ -3,6 +3,7 @@
 # meta.cgi
 #
 # 5'2013 hobbyquaker https://github.com/hobbyquaker
+# 2'2015 Uwe Langhammer ulangham@gmx.de
 #
 
 load tclrega.so
@@ -14,13 +15,19 @@ puts ""
 set postdata [string trim [read stdin]]
 
 set dps [split $postdata ";"]
-set hm_script "var first = true;\nobject o;\nobject ch;\nWrite('{');\n"
-set first true
+set counter 0
 foreach dp $dps {
-    append hm_script "o = dom.GetObject('BidCos-RF.$dp');\nif (!o) \{\n"
-    append hm_script "o = dom.GetObject('CUxD.$dp');\n if (!o) \{\n"
-    append hm_script "o = dom.GetObject('BidCos-Wired.$dp');\n\}\n\}\nif (o) \{\n"
-    append hm_script "if (first) \{\nfirst = false;\n\} else \{\nWriteLine(',');\n\}\n"
+    if { $counter == 0 } {
+      set hm_script "object o;\nobject ch;\n"
+    }
+    incr counter
+    if { [string equal -length 3 $dp "CUX"] } {
+        append hm_script "o = dom.GetObject('CUxD.$dp');\n"
+    } else {
+        append hm_script "o = dom.GetObject('BidCos-RF.$dp');\nif (!o) \{\n"
+        append hm_script "o = dom.GetObject('BidCos-Wired.$dp');\n\}\n"
+    }  
+    append hm_script "if (o) \{\n"
     append hm_script "Write('\"$dp\":\{');\n"
     append hm_script "Write('\"ValueUnit\":\"' # o.ValueUnit() # '\"');\n"
 #    append hm_script "Write('\"ValueType\":\"' # o.ValueType() # '\",');\n"
@@ -30,11 +37,22 @@ foreach dp $dps {
     append hm_script "ch = dom.GetObject(o.Channel());\nif (ch) \{\n"
     append hm_script "Write(',\"ChannelName\":\"' # ch.Name() # '\"');\n"
 #    append hm_script "Write('\"ChannelHssType\":\"' # ch.HssType() # '\"');\n"
-    append hm_script "\}\nWrite('\}');\n"
+    append hm_script "\}\nWriteLine('\},');\n"
     append hm_script "\}\n"
-
-
-}
-append hm_script "WriteLine('\}');\n"
+    if { $counter == 50 } {
+#puts "query $counter"
 #puts $hm_script
-puts [lindex [rega_script $hm_script] 1]
+        append ret [lindex [rega_script $hm_script] 1]
+        set counter 0
+    }
+}
+if { $counter > 0 } {
+#puts "last query $counter"
+#puts $hm_script
+    append ret [lindex [rega_script $hm_script] 1]
+}
+set retlen [string length $ret]
+set retmin [expr { $retlen - 3 }]
+puts -nonewline "{"
+puts -nonewline [string replace $ret $retmin $retlen]
+puts "}"
