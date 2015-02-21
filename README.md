@@ -90,62 +90,66 @@ Beispiel:
 
 ## Changelog
 
+### 1.4.4
+* (uwe111) add an external logfilter to improve stability
+* (uwe111) split rega_script queries and speed up rega queries
+
 ### 1.4.3
-* Fehler behoben bei Auswahl des Navigator-Datenpunkts
-* Fehler behoben bei Darstellung %-Ordinate
-* Fehler behoben auf Menüseite
+* (hobbyquaker) Fehler behoben bei Auswahl des Navigator-Datenpunkts
+* (hobbyquaker) Fehler behoben bei Darstellung %-Ordinate
+* (hobbyquaker) Fehler behoben auf Menüseite
 
 ### 1.4.2
-* exporting Modul hinzugefügt - Charts können nun als .jpg, .png, .svg oder .pdf exportiert werden
-* neuer Parameter "percentaxis" blendet zusätzliche Y-Achse rechts für Prozent-Werte ein
-* neuer Parameter "navserie" - hiermit kann ein Datenpunkt für den "Navigator" ausgewählt werden
-* reset.html hinzugefügt - Aufruf löscht den Cache für die Menü-Seite
+* (hobbyquaker) exporting Modul hinzugefügt - Charts können nun als .jpg, .png, .svg oder .pdf exportiert werden
+* (hobbyquaker) neuer Parameter "percentaxis" blendet zusätzliche Y-Achse rechts für Prozent-Werte ein
+* (hobbyquaker) neuer Parameter "navserie" - hiermit kann ein Datenpunkt für den "Navigator" ausgewählt werden
+* (hobbyquaker) reset.html hinzugefügt - Aufruf löscht den Cache für die Menü-Seite
 
 ### 1.4.1
-* Fehler behoben der die Menüseite "kaputt" gemacht hat bei Installation als Zusatzsoftware
+* (hobbyquaker) Fehler behoben der die Menüseite "kaputt" gemacht hat bei Installation als Zusatzsoftware
 
 ### 1.4.0
-* neue Menüseite zur komfortablen Auswahl von Datenpunkten und weiteren Optionen: /addons/cuxchart/menu.html
-* Config-Datei: js/config.js - hier können Highcharts-Optionen nach Datenpunkt-Typ oder explizit für bestimmte Datenpunkte konfiguriert werden.
-* Fehler behoben: die Parameter range, period und navigator verhalten sich nun wie beabsichtigt
-* Fehler angefangen: fehlerhafte Angaben beim Parameter dp
-* diverse kleine Verbesserungen, diverse Fehler behoben
+* (hobbyquaker) neue Menüseite zur komfortablen Auswahl von Datenpunkten und weiteren Optionen: /addons/cuxchart/menu.html
+* (hobbyquaker) Config-Datei: js/config.js - hier können Highcharts-Optionen nach Datenpunkt-Typ oder explizit für bestimmte Datenpunkte konfiguriert werden.
+* (hobbyquaker) Fehler behoben: die Parameter range, period und navigator verhalten sich nun wie beabsichtigt
+* (hobbyquaker) Fehler angefangen: fehlerhafte Angaben beim Parameter dp
+* (hobbyquaker) diverse kleine Verbesserungen, diverse Fehler behoben
 
 ### 1.3.9
-* an CCU2 angepasstes Update-Script (Danke Uwe!)
+* (uwe111) an CCU2 angepasstes Update-Script
 
 ### 1.3.8
-* diverse Fehler behoben
-* Verbesserungen beim Aggregieren
+* (hobbyquaker) diverse Fehler behoben
+* (hobbyquaker) Verbesserungen beim Aggregieren
 
 ### 1.3.5
-* Fehler beim verarbeiten der Zeitzone behoben
-* Tooltips neu formatiert
-* Notwendige CUxD Settings (DEVLOGFILE, DEVTIMEFORMAT, min. 1 LOGIT Eintrag) werden geprüft
-* diverse Fehler behoben und kleine Änderungen vorgenommen
-* Code aufgeräumt, .tar.gz wird nun mit minifizierter cuxchart.js ausgeliefert 
+* (hobbyquaker) Fehler beim verarbeiten der Zeitzone behoben
+* (hobbyquaker) Tooltips neu formatiert
+* (hobbyquaker) Notwendige CUxD Settings (DEVLOGFILE, DEVTIMEFORMAT, min. 1 LOGIT Eintrag) werden geprüft
+* (hobbyquaker) diverse Fehler behoben und kleine Änderungen vorgenommen
+* (hobbyquaker) Code aufgeräumt, .tar.gz wird nun mit minifizierter cuxchart.js ausgeliefert 
 
 ### 1.3
-* Steuerung verschiedener Optionen über URL-Parameter
-* Themes
-* Datenpunkte in Legende alphabetisch sortiert
-* Fehler beim Speichern der ausgewählten Datenreihen behoben
-* Caching der alten Logs
-* diverse Bugfixes und kleine Verbesserungen
+* (hobbyquaker) Steuerung verschiedener Optionen über URL-Parameter
+* (hobbyquaker) Themes
+* (hobbyquaker) Datenpunkte in Legende alphabetisch sortiert
+* (hobbyquaker) Fehler beim Speichern der ausgewählten Datenreihen behoben
+* (hobbyquaker) Caching der alten Logs
+* (hobbyquaker) diverse Bugfixes und kleine Verbesserungen
 
 ### 1.2
-* Verwendung von Highstock
-* Unterstützung von DEVLOGMOVE
-* Ausgewählte Graphen werden im LocalStorage des Browsers gespeichert und beim nächsten Seitenaufruf autom. wieder ausgewählt
-* Statt Datenpunkt-Bezeichnern werden in der Legende nun Kanalnamen gefolgt vom HssType und der Einheit angezeigt
-* Lade-Seite mit Möglichkeit das Laden der Logfiles abzubrechen
-* Für unterschiedliche Datenpunkttypen werden nun passende Graphen-Typen ausgewählt
+* (hobbyquaker) Verwendung von Highstock
+* (hobbyquaker) Unterstützung von DEVLOGMOVE
+* (hobbyquaker) Ausgewählte Graphen werden im LocalStorage des Browsers gespeichert und beim nächsten Seitenaufruf autom. wieder ausgewählt
+* (hobbyquaker) Statt Datenpunkt-Bezeichnern werden in der Legende nun Kanalnamen gefolgt vom HssType und der Einheit angezeigt
+* (hobbyquaker) Lade-Seite mit Möglichkeit das Laden der Logfiles abzubrechen
+* (hobbyquaker) Für unterschiedliche Datenpunkttypen werden nun passende Graphen-Typen ausgewählt
 
 ### 1.1
-* diverse Fehler behoben
+* (hobbyquaker) diverse Fehler behoben
 
 ### 1.0
-* Erstes öffentliches Release
+* (hobbyquaker) Erstes öffentliches Release
 
 
 
