@@ -1,29 +1,29 @@
 /**
  *      CUxD-Highcharts
  *
- *      visualisiert CUxD Ger�te-Logs mittels Highcharts
+ *      visualisiert CUxD Geräte-Logs mittels Highcharts
  *
  *      Copyright (c) 2013 hobbyquaker https://github.com/hobbyquaker
  *
  *      Lizenz: CC BY-NC 3.0 http://creativecommons.org/licenses/by-nc/3.0/de/
  *
- *      Sie d�rfen:
- *          das Werk bzw. den Inhalt vervielf�ltigen, verbreiten und �ffentlich zug�nglich machen
+ *      Sie dürfen:
+ *          das Werk bzw. den Inhalt vervielfältigen, verbreiten und öffentlich zugänglich machen
  *          Abwandlungen und Bearbeitungen des Werkes bzw. Inhaltes anfertigen
  *      Zu den folgenden Bedingungen:
- *          Namensnennung - Sie m�ssen den Namen des Autors/Rechteinhabers in der von ihm festgelegten Weise nennen.
- *          Keine kommerzielle Nutzung - Dieses Werk bzw. dieser Inhalt darf nicht f�r kommerzielle Zwecke verwendet
+ *          Namensnennung - Sie müssen den Namen des Autors/Rechteinhabers in der von ihm festgelegten Weise nennen.
+ *          Keine kommerzielle Nutzung - Dieses Werk bzw. dieser Inhalt darf nicht für kommerzielle Zwecke verwendet
  *          werden.
  *      Wobei gilt:
- *          Verzichtserkl�rung - Jede der vorgenannten Bedingungen kann aufgehoben werden, sofern Sie die ausdr�ckliche
+ *          Verzichtserklärung - Jede der vorgenannten Bedingungen kann aufgehoben werden, sofern Sie die ausdrückliche
  *          Einwilligung des Rechteinhabers dazu erhalten.
  *
- *      Die Ver�ffentlichung dieser Software erfolgt in der Hoffnung, da� sie Ihnen von Nutzen sein wird, aber
- *      OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT F�R EINEN
+ *      Die Veröffentlichung dieser Software erfolgt in der Hoffnung, daß sie Ihnen von Nutzen sein wird, aber
+ *      OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
  *      BESTIMMTEN ZWECK.
  *
- *      Die Nutzung dieser Software erfolgt auf eigenes Risiko. Der Author dieser Software kann f�r eventuell
- *      auftretende Folgesch�den nicht haftbar gemacht werden!
+ *      Die Nutzung dieser Software erfolgt auf eigenes Risiko. Der Author dieser Software kann für eventuell
+ *      auftretende Folgeschäden nicht haftbar gemacht werden!
  *
  */
 
@@ -32,7 +32,7 @@ var cuxchart;
 ;(function ($) {
 
     cuxchart = {
-        version: "1.4.4",
+        version: "1.4.5",
         chart: undefined,
         chartOptions: {},
         queryParams: getUrlVars(),
@@ -79,7 +79,7 @@ var cuxchart;
 
             if (dps.length < 1) {
                 $(".ajax-loader").removeClass("ajax-loader").addClass("ajax-fail");
-                $("#loader_output2").prepend("<b>Fehler: </b>ausgew�hlte Datenpunkte nicht im Log gefunden!<br/>");
+                $("#loader_output2").prepend("<b>Fehler: </b>ausgewählte Datenpunkte nicht im Log gefunden!<br/>");
                 $.error("keine Datenpunkte im Log gefunden");
 
             }
@@ -95,7 +95,7 @@ var cuxchart;
                     cuxchart.ajaxDone();
                     $("#loader_output2").prepend("<span class='ajax-loader'></span> verarbeite Daten");
                     for (var i = 0; i < dps.length; i++) {
-                        // Kamen Infos zur�ck?
+                        // Kamen Infos zurück?
                         if (data[dps[i]]) {
 
 
@@ -210,9 +210,9 @@ var cuxchart;
 
             Highcharts.setOptions({
                 lang: {
-                    months: ['Januar', 'Februar', 'M�rz', 'April', 'Mai', 'Juni',
+                    months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
                         'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-                    shortMonths: ['Jan', 'Feb', 'M�r', 'Apr', 'Mai', 'Jun',
+                    shortMonths: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
                         'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
                     weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
                     rangeSelectorFrom: 'von',
@@ -597,7 +597,7 @@ var cuxchart;
 
         },
         parseDate: function (str) {
-            // Verl�sst sich darauf das CUxD DEVTIMEFORMAT=%Y-%m-%dT%X gesetzt ist
+            // Verlässt sich darauf das CUxD DEVTIMEFORMAT=%Y-%m-%dT%X gesetzt ist
             var ts = Date.parse(str+"Z") + cuxchart.tzOffset;
             return ts;
         },
@@ -854,14 +854,14 @@ var cuxchart;
                     legendItemClick: function () {
 
                         setTimeout(function () {
-                            // Ausgew�hlte Datenreihen im LocalStorage sichern
+                            // Ausgewählte Datenreihen im LocalStorage sichern
                             var tmpArr = [];
                             for (var i = 0; i < cuxchart.chart.series.length; i++) {
                                 if (cuxchart.chart.series[i].visible && cuxchart.chart.series[i].name && cuxchart.chart.series[i].name != "Navigator") {
                                     tmpArr.push(cuxchart.chart.series[i].userOptions.cuxchart);
                                 }
                             }
-                            if (!cuxchart.queryParams["dp"]�||�cuxchart.queryParams["dp"] == "") {
+                            if (!cuxchart.queryParams["dp"] || cuxchart.queryParams["dp"] == "") {
                                 storage.set(cuxchart.storageKey, {visible: tmpArr});
                             }
                             cuxchart.saveSettings();

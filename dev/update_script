@@ -1,17 +1,14 @@
 #!/bin/sh
 
-mkdir -p /mnt
+WWW_DIR=/usr/local/etc/config/addons/www/
+RC_DIR=/usr/local/etc/config/rc.d
 
-if ["$1" == ""]; then
-    echo "CCU1"
-	mount -t yaffs /dev/mtdblock3 /mnt
-else
-    echo "CCU2"
-    mount -t ubifs ubi1:user /mnt
-fi
+mount /usr/local 2>/dev/null
 
-cp -R ./cuxchart /mnt/etc/config/addons/www/
-cp ./cuxd-highcharts /mnt/etc/config/rc.d/cuxchart
-chmod +x /mnt/etc/config/rc.d/cuxchart
+# Programme kopieren
+cp -pR cuxchart $WWW_DIR/
 
-umount /mnt
+# Startscript kopieren
+cp -p cuxd-highcharts $RC_DIR/cuxchart
+
+sync

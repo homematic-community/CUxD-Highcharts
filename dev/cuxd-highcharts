@@ -1,27 +1,22 @@
 #!/bin/sh
-
 case "$1" in
-
 	""|start|restart|stop)
-		exit 0
 		;;
-
 	info)
-        echo "Info: <b>CUxD-Highcharts</b>"
-        echo "Info: <br>Men�: <a href="/addons/cuxchart/menu.html" target="_blank">/addons/cuxchart/menu.html</a>"
-        echo "Info: <br>Readme: <a href="https://raw.github.com/hobbyquaker/CUxD-Highcharts/master/README.md" target="_blank">Lies mich!</a>"
-        echo "Name: CUxD-Highcharts"
-        echo "Version: 1.4.4"
-        echo "Operations: uninstall"
-        ;;
+		VERSION=`sed -rn 's/^.*version:"([^"]+)/\1 /p' /usr/local/etc/config/addons/www/cuxchart/js/cuxchart.*js | awk '{ print $1 }'`
+		echo "Info: <b>CUxD-Highcharts</b>"
+		echo "Info: <br>Menu: <a href="/addons/cuxchart/menu.html" target="_blank">/addons/cuxchart/menu.html</a>"
+		echo "Info: <br>Readme: <a href="https://raw.githubusercontent.com/hobbyquaker/CUxD-Highcharts/master/README.md" target="_blank">Lies mich!</a>"
+		echo "Name: CUxD-Highcharts"
+		echo "Version: $VERSION"
+		echo "Operations: uninstall"
+		;;
 	uninstall)
-		rm -r /usr/local/etc/config/addons/cuxchart
+		rm -rf /usr/local/etc/config/addons/www/cuxchart/
 		;;
 	*)
-        echo "Usage: cuxd-highcharts {info|uninstall}" >&2
-        exit 1
-        ;;
-
+		echo "Usage: cuxd-highcharts {info|uninstall}" >&2
+		exit 1
+		;;
 esac
-
 exit 0

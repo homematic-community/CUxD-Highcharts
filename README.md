@@ -9,10 +9,9 @@ Zusatzsoftware für die HomeMatic CCU um CUxD Geräte-Logs via Highcharts/Highst
 Im HomeMatic WebUI cuxchart_x.x.x.tar.gz als Zusatzsoftware installieren. [Download über homematic-inside.de](http://homematic-inside.de/software/download/item/cuxd-highcharts)
 
 ### Per FTP/SCP
-(Vorteil: kein Zwangsreboot der CCU, Nachteil: die Software taucht nicht in der Liste der installierten Zusatzsoftware auf und lässt sich dort auch nicht deinstallieren)
+(Vorteil: kein Zwangsreboot der CCU)
 
-Den Ordner cuxchart aus der .tar.gz Datei auspacken und auf die CCU nach /www/addons/ kopieren. Zum deinstallieren einfach löschen.
-
+Die cuxchart_x.x.x.tar.gz Datei per (s)ftp auf die CCU ins Verzeichnis /tmp/ kopieren. Auspacken mittels "tar xvzf cuxchart_x.x.x.tar.gz". Zum Installieren ./update_script aufrufen.
 
 ## Dokumentation
 
@@ -89,6 +88,12 @@ Beispiel:
 * Marker setzen und speichern
 
 ## Changelog
+
+### 1.4.5
+* (uwe111) Problem bei Abfrage einer großen Anzahl von Datenpunkten behoben
+* (uwe111) entfernen ungültiger Datensätze durch CUxD bevor die Daten an Highcharts übergeben werden (CUxD Version > 0.9 erforderlich)
+* (uwe111) Start/Stop Script optimiert und Fehler behoben
+* (uwe111) Update-Script vereinfacht
 
 ### 1.4.4
 * (uwe111) add an external logfilter to improve stability
