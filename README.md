@@ -1,5 +1,7 @@
 # CUxD-Highcharts 1.4
 
+**Projekt verwaist. Maintainer gesucht!**
+
 Zusatzsoftware für die HomeMatic CCU um CUxD Geräte-Logs via Highcharts/Highstock zu visualisieren
 
 ## Installation
